@@ -78,3 +78,27 @@ mat-sidenav {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.toolbar-spacer {
+  flex: 1;
+}
+
+.toolbar-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.toolbar-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--mat-sys-on-primary);
+  color: var(--mat-sys-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+}

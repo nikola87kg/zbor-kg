@@ -1,3 +1,16 @@
+query GetNewsArticle($id: UUID!) @auth(level: PUBLIC, insecureReason: "News articles are publicly readable") {
+  newsArticle(id: $id) {
+    id
+    title
+    url
+    publishedAt
+    createdAt
+    imageUrl
+    summary
+    sourceName
+  }
+}
+
 query ListNewsArticles @auth(level: PUBLIC, insecureReason: "News articles are publicly readable") {
   newsArticles(orderBy: { publishedAt: DESC }) {
     id
@@ -17,6 +30,44 @@ query ListUserNewsPreferences @auth(level: USER) {
     isRead
     isFavorite
   }
+}
+
+mutation CreateNewsArticle(
+  $title: String!
+  $url: String!
+  $publishedAt: Timestamp!
+  $imageUrl: String
+  $summary: String
+  $sourceName: String
+) @auth(level: USER, insecureReason: "Any authenticated user can submit news articles") {
+  newsArticle_insert(data: {
+    title: $title
+    url: $url
+    publishedAt: $publishedAt
+    createdAt_expr: "request.time"
+    imageUrl: $imageUrl
+    summary: $summary
+    sourceName: $sourceName
+  })
+}
+
+mutation UpdateNewsArticle(
+  $id: UUID!
+  $title: String!
+  $url: String!
+  $publishedAt: Timestamp!
+  $imageUrl: String
+  $summary: String
+  $sourceName: String
+) @auth(level: USER, insecureReason: "Any authenticated user can update news articles") {
+  newsArticle_update(id: $id, data: {
+    title: $title
+    url: $url
+    publishedAt: $publishedAt
+    imageUrl: $imageUrl
+    summary: $summary
+    sourceName: $sourceName
+  })
 }
 
 mutation SetNewsPreference(

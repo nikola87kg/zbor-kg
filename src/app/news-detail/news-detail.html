@@ -1,0 +1,42 @@
+<div class="detail-container">
+  <button mat-button class="back-btn" (click)="goBack()">
+    <mat-icon>arrow_back</mat-icon>
+    Назад на вести
+  </button>
+
+  @if (loading()) {
+    <div class="centered"><mat-spinner /></div>
+  } @else if (!article()) {
+    <p class="state-msg">Вест није пронађена.</p>
+  } @else {
+    <article class="detail-article">
+      @if (article()!.imageUrl) {
+        <img class="detail-image" [src]="article()!.imageUrl!" [alt]="article()!.title">
+      }
+
+      <div class="detail-body">
+        <div class="detail-meta">
+          @if (article()!.sourceName) {
+            <span class="source">{{ article()!.sourceName }}</span>
+          }
+          <span class="date">{{ article()!.publishedAt | date:'dd.MM.yyyy' }}</span>
+        </div>
+
+        <h1 class="detail-title">{{ article()!.title }}</h1>
+
+        @if (article()!.summary) {
+          <div class="detail-summary" [innerHTML]="article()!.summary"></div>
+        }
+
+        @if (isExternalUrl(article()!.url)) {
+          <a mat-raised-button color="primary"
+             [href]="article()!.url" target="_blank" rel="noopener"
+             class="source-link">
+            <mat-icon>open_in_new</mat-icon>
+            Оригинална вест
+          </a>
+        }
+      </div>
+    </article>
+  }
+</div>

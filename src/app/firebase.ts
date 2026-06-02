@@ -4,6 +4,7 @@ import { FirebaseApp, initializeApp } from 'firebase/app';
 import { Analytics, getAnalytics } from 'firebase/analytics';
 import { Auth, getAuth } from 'firebase/auth';
 import { DataConnect, getDataConnect } from 'firebase/data-connect';
+import { FirebaseStorage, getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyD2I3_owIMf2b2WLmyBTbJxZcU4aL0i3i0',
@@ -33,6 +34,11 @@ export const FIREBASE_DATA_CONNECT = new InjectionToken<DataConnect>('firebase-d
     location: 'europe-west4',
     service: 'zbor-kg-service',
   }),
+});
+
+export const FIREBASE_STORAGE = new InjectionToken<FirebaseStorage>('firebase-storage', {
+  providedIn: 'root',
+  factory: () => getStorage(inject(FIREBASE_APP)),
 });
 
 export const FIREBASE_ANALYTICS = new InjectionToken<Analytics | null>('firebase-analytics', {

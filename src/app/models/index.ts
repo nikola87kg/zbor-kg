@@ -31,6 +31,15 @@ export interface CalendarEntry {
   entryType: CalendarEntryType;
 }
 
+export interface CreateNewsArticleInput {
+  title: string;
+  url: string;
+  publishedAt: Date;
+  imageUrl?: string;
+  summary?: string;
+  sourceName?: string;
+}
+
 export interface CreateCalendarEntryInput {
   title: string;
   startTime: Date;

@@ -1,32 +1,59 @@
 <div class="news-container">
+
+  <div class="news-bar">
+    <mat-form-field appearance="outline" class="search-field" subscriptSizing="dynamic">
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput
+             placeholder="Претражи вести..."
+             [value]="searchQuery()"
+             (input)="searchQuery.set($any($event.target).value)">
+      @if (searchQuery()) {
+        <button matSuffix mat-icon-button (click)="searchQuery.set('')">
+          <mat-icon>close</mat-icon>
+        </button>
+      }
+    </mat-form-field>
+
+    @if (auth.isLoggedIn()) {
+      <button mat-raised-button color="primary" routerLink="/vesti/nova">
+        <mat-icon>add</mat-icon>
+        Додај вест
+      </button>
+    }
+  </div>
+
   @if (loading()) {
     <div class="centered"><mat-spinner /></div>
   } @else if (error()) {
     <p class="state-msg">{{ error() }}</p>
   } @else {
     <div class="articles-grid">
-      @for (article of articles(); track article.id) {
+      @for (article of filteredArticles(); track article.id) {
         <mat-card class="article-card">
           @if (article.imageUrl) {
-            <img mat-card-image [src]="article.imageUrl" [alt]="article.title">
+            <img mat-card-image [src]="article.imageUrl" [alt]="article.title"
+                 class="card-image" (click)="openArticle(article.id)">
+          } @else {
+            <div class="image-placeholder" (click)="openArticle(article.id)"></div>
           }
           <mat-card-header>
-            <mat-card-title>{{ article.title }}</mat-card-title>
-            <mat-card-subtitle>
-              @if (article.sourceName) {
-                <mat-chip-set><mat-chip>{{ article.sourceName }}</mat-chip></mat-chip-set>
-              }
-              {{ article.publishedAt | date:'dd.MM.yyyy' }}
-            </mat-card-subtitle>
+            <mat-card-title class="card-title" (click)="openArticle(article.id)">
+              {{ article.title }}
+            </mat-card-title>
+            <mat-card-subtitle></mat-card-subtitle>
           </mat-card-header>
           @if (article.summary) {
-            <mat-card-content><p>{{ article.summary }}</p></mat-card-content>
+            <mat-card-content>
+              <div class="summary" [innerHTML]="article.summary"></div>
+            </mat-card-content>
           }
-          <mat-card-actions align="end">
-            <a mat-button [href]="article.url" target="_blank" rel="noopener">
-              <mat-icon>open_in_new</mat-icon> Читај
-            </a>
+          <mat-card-actions>
+            <span class="card-date">{{ article.publishedAt | date:'dd.MM.yyyy' }}</span>
+            <span class="actions-spacer"></span>
             @if (auth.isLoggedIn()) {
+              <button mat-icon-button matTooltip="Уреди вест" (click)="editArticle(article.id)">
+                <mat-icon>edit</mat-icon>
+              </button>
               <button mat-icon-button (click)="toggleFavorite(article.id)"
                       [class.favorited]="isFavorite(article.id)">
                 <mat-icon>{{ isFavorite(article.id) ? 'favorite' : 'favorite_border' }}</mat-icon>
@@ -35,8 +62,11 @@
           </mat-card-actions>
         </mat-card>
       } @empty {
-        <p class="state-msg">Нема вести за приказ.</p>
+        <p class="state-msg">
+          {{ searchQuery() ? 'Нема резултата претраге.' : 'Нема вести за приказ.' }}
+        </p>
       }
     </div>
   }
+
 </div>

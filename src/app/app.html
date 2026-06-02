@@ -3,6 +3,15 @@
     <mat-icon>menu</mat-icon>
   </button>
   <span>Збор КГ</span>
+
+  <span class="toolbar-spacer"></span>
+
+  @if (auth.isLoggedIn()) {
+    <div class="toolbar-user">
+      <div class="toolbar-avatar">{{ auth.initials() }}</div>
+      <span>{{ auth.user()!.displayName || auth.user()!.email }}</span>
+    </div>
+  }
 </mat-toolbar>
 
 <mat-sidenav-container>

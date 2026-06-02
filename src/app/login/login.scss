@@ -1,0 +1,45 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+mat-card {
+  width: 100%;
+  max-width: 420px;
+}
+
+mat-card-title {
+  text-align: center;
+  padding-bottom: 8px;
+}
+
+.tab-form {
+  display: flex;
+  flex-direction: column;
+  padding: 24px 0 8px;
+  gap: 4px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.submit-btn {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.form-error {
+  color: var(--mat-sys-error);
+  font-size: 12px;
+  margin: 4px 0 0;
+}

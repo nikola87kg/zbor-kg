@@ -1,0 +1,42 @@
+<div class="news-container">
+  @if (loading()) {
+    <div class="centered"><mat-spinner /></div>
+  } @else if (error()) {
+    <p class="state-msg">{{ error() }}</p>
+  } @else {
+    <div class="articles-grid">
+      @for (article of articles(); track article.id) {
+        <mat-card class="article-card">
+          @if (article.imageUrl) {
+            <img mat-card-image [src]="article.imageUrl" [alt]="article.title">
+          }
+          <mat-card-header>
+            <mat-card-title>{{ article.title }}</mat-card-title>
+            <mat-card-subtitle>
+              @if (article.sourceName) {
+                <mat-chip-set><mat-chip>{{ article.sourceName }}</mat-chip></mat-chip-set>
+              }
+              {{ article.publishedAt | date:'dd.MM.yyyy' }}
+            </mat-card-subtitle>
+          </mat-card-header>
+          @if (article.summary) {
+            <mat-card-content><p>{{ article.summary }}</p></mat-card-content>
+          }
+          <mat-card-actions align="end">
+            <a mat-button [href]="article.url" target="_blank" rel="noopener">
+              <mat-icon>open_in_new</mat-icon> Читај
+            </a>
+            @if (auth.isLoggedIn()) {
+              <button mat-icon-button (click)="toggleFavorite(article.id)"
+                      [class.favorited]="isFavorite(article.id)">
+                <mat-icon>{{ isFavorite(article.id) ? 'favorite' : 'favorite_border' }}</mat-icon>
+              </button>
+            }
+          </mat-card-actions>
+        </mat-card>
+      } @empty {
+        <p class="state-msg">Нема вести за приказ.</p>
+      }
+    </div>
+  }
+</div>

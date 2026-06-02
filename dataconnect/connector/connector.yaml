@@ -1,0 +1,6 @@
+connectorId: "default"
+generate:
+  javascriptSdk:
+    outputDir: "../../src/app/generated/dataconnect"
+    package: "@zbor-kg/dataconnect"
+    packageJSONDir: "../../src/app/generated/dataconnect"

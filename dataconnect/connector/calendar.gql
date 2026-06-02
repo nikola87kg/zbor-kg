@@ -1,0 +1,78 @@
+query ListCalendarEntries @auth(level: USER) {
+  calendarEntries(
+    where: { userId: { eq_expr: "auth.uid" } }
+    orderBy: { startTime: ASC }
+  ) {
+    id
+    title
+    startTime
+    endTime
+    description
+    location
+    isAllDay
+    entryType {
+      id
+      name
+    }
+  }
+}
+
+query ListCalendarEntryTypes @auth(level: PUBLIC, insecureReason: "Entry types are a public lookup table") {
+  calendarEntryTypes(orderBy: { name: ASC }) {
+    id
+    name
+  }
+}
+
+mutation CreateCalendarEntry(
+  $title: String!
+  $startTime: Timestamp!
+  $entryTypeId: UUID!
+  $description: String
+  $endTime: Timestamp
+  $location: String
+  $isAllDay: Boolean
+) @auth(level: USER) {
+  calendarEntry_insert(data: {
+    userId_expr: "auth.uid"
+    title: $title
+    startTime: $startTime
+    entryTypeId: $entryTypeId
+    createdAt_expr: "request.time"
+    description: $description
+    endTime: $endTime
+    location: $location
+    isAllDay: $isAllDay
+  })
+}
+
+mutation UpdateCalendarEntry(
+  $id: UUID!
+  $title: String!
+  $startTime: Timestamp!
+  $entryTypeId: UUID!
+  $description: String
+  $endTime: Timestamp
+  $location: String
+  $isAllDay: Boolean
+) @auth(level: USER) {
+  calendarEntry_updateMany(
+    where: { id: { eq: $id }, userId: { eq_expr: "auth.uid" } }
+    data: {
+      title: $title
+      startTime: $startTime
+      entryTypeId: $entryTypeId
+      description: $description
+      endTime: $endTime
+      location: $location
+      isAllDay: $isAllDay
+    }
+  )
+}
+
+mutation DeleteCalendarEntry($id: UUID!) @auth(level: USER) {
+  calendarEntry_deleteMany(where: {
+    id: { eq: $id }
+    userId: { eq_expr: "auth.uid" }
+  })
+}

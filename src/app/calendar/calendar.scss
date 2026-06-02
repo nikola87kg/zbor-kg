@@ -1,0 +1,44 @@
+:host {
+  display: block;
+  padding: 24px;
+}
+
+.centered {
+  display: flex;
+  justify-content: center;
+  padding: 64px;
+}
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+
+  h2 { margin: 0; }
+}
+
+.form-card {
+  margin-bottom: 24px;
+}
+
+.entry-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 8px;
+
+  mat-form-field { width: 100%; }
+}
+
+.date-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.state-msg {
+  text-align: center;
+  padding: 64px;
+  color: var(--mat-sys-on-surface-variant);
+}

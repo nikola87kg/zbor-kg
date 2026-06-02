@@ -1,0 +1,34 @@
+query ListNewsArticles @auth(level: PUBLIC, insecureReason: "News articles are publicly readable") {
+  newsArticles(orderBy: { publishedAt: DESC }) {
+    id
+    title
+    url
+    publishedAt
+    createdAt
+    imageUrl
+    summary
+    sourceName
+  }
+}
+
+query ListUserNewsPreferences @auth(level: USER) {
+  userNewsPreferences(where: { userId: { eq_expr: "auth.uid" } }) {
+    newsArticleId
+    isRead
+    isFavorite
+  }
+}
+
+mutation SetNewsPreference(
+  $newsArticleId: UUID!
+  $isFavorite: Boolean!
+  $isRead: Boolean!
+) @auth(level: USER) {
+  userNewsPreference_upsert(data: {
+    userId_expr: "auth.uid"
+    newsArticleId: $newsArticleId
+    isFavorite: $isFavorite
+    isRead: $isRead
+    createdAt_expr: "request.time"
+  })
+}

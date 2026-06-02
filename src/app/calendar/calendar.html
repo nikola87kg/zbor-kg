@@ -1,0 +1,103 @@
+<div class="calendar-container">
+  @if (loading()) {
+    <div class="centered"><mat-spinner /></div>
+  } @else {
+    <div class="calendar-header">
+      <h2>Мој календар</h2>
+      <button mat-raised-button color="primary" (click)="showForm.set(!showForm())">
+        <mat-icon>{{ showForm() ? 'close' : 'add' }}</mat-icon>
+        {{ showForm() ? 'Откажи' : 'Нови унос' }}
+      </button>
+    </div>
+
+    @if (error()) {
+      <p class="state-msg">{{ error() }}</p>
+    }
+
+    @if (showForm()) {
+      <mat-card class="form-card">
+        <mat-card-content>
+          <form [formGroup]="entryForm" (ngSubmit)="createEntry()" class="entry-form">
+
+            <mat-form-field appearance="outline">
+              <mat-label>Наслов</mat-label>
+              <input matInput formControlName="title">
+              @if (entryForm.get('title')?.hasError('required') && entryForm.get('title')?.touched) {
+                <mat-error>Наслов обавезан</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Тип уноса</mat-label>
+              <mat-select formControlName="entryTypeId">
+                @for (type of entryTypes(); track type.id) {
+                  <mat-option [value]="type.id">{{ type.name }}</mat-option>
+                }
+              </mat-select>
+              @if (entryForm.get('entryTypeId')?.hasError('required') && entryForm.get('entryTypeId')?.touched) {
+                <mat-error>Тип обавезан</mat-error>
+              }
+            </mat-form-field>
+
+            <div class="date-row">
+              <mat-form-field appearance="outline">
+                <mat-label>Датум почетка</mat-label>
+                <input matInput [matDatepicker]="startPicker" formControlName="startTime">
+                <mat-datepicker-toggle matIconSuffix [for]="startPicker" />
+                <mat-datepicker #startPicker />
+                @if (entryForm.get('startTime')?.hasError('required') && entryForm.get('startTime')?.touched) {
+                  <mat-error>Датум обавезан</mat-error>
+                }
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Датум завршетка</mat-label>
+                <input matInput [matDatepicker]="endPicker" formControlName="endTime">
+                <mat-datepicker-toggle matIconSuffix [for]="endPicker" />
+                <mat-datepicker #endPicker />
+              </mat-form-field>
+            </div>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Локација</mat-label>
+              <mat-icon matPrefix>location_on</mat-icon>
+              <input matInput formControlName="location">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Опис</mat-label>
+              <textarea matInput formControlName="description" rows="3"></textarea>
+            </mat-form-field>
+
+            <button mat-flat-button type="submit" [disabled]="saving()">
+              @if (saving()) { Чување... } @else { Сачувај }
+            </button>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    }
+
+    <mat-list>
+      @for (entry of entries(); track entry.id) {
+        <mat-list-item>
+          <mat-icon matListItemIcon>{{ entry.isAllDay ? 'event' : 'schedule' }}</mat-icon>
+          <span matListItemTitle>{{ entry.title }}</span>
+          <span matListItemLine>
+            {{ entry.startTime | date:'dd.MM.yyyy' }}
+            @if (entry.endTime) { – {{ entry.endTime | date:'dd.MM.yyyy' }} }
+            &nbsp;·&nbsp;{{ entry.entryType.name }}
+          </span>
+          @if (entry.location) {
+            <span matListItemLine>{{ entry.location }}</span>
+          }
+          <button mat-icon-button matListItemMeta (click)="deleteEntry(entry.id)">
+            <mat-icon>delete_outline</mat-icon>
+          </button>
+        </mat-list-item>
+        <mat-divider />
+      } @empty {
+        <p class="state-msg">Нема уноса у календару.</p>
+      }
+    </mat-list>
+  }
+</div>

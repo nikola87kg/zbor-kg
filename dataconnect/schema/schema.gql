@@ -1,0 +1,41 @@
+type User @table {
+  displayName: String!
+  createdAt: Timestamp!
+  email: String
+  photoUrl: String
+}
+
+type NewsArticle @table {
+  title: String!
+  url: String!
+  publishedAt: Timestamp!
+  createdAt: Timestamp!
+  imageUrl: String
+  summary: String
+  sourceName: String
+}
+
+type CalendarEntryType @table {
+  name: String!
+}
+
+type CalendarEntry @table {
+  user: User!
+  title: String!
+  startTime: Timestamp!
+  entryType: CalendarEntryType!
+  createdAt: Timestamp!
+  description: String
+  endTime: Timestamp
+  location: String
+  isAllDay: Boolean
+  reminderTime: Timestamp
+}
+
+type UserNewsPreference @table(key: ["user", "newsArticle"]) {
+  user: User!
+  newsArticle: NewsArticle!
+  createdAt: Timestamp!
+  isRead: Boolean
+  isFavorite: Boolean
+}

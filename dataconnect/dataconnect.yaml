@@ -1,0 +1,12 @@
+specVersion: "v1alpha"
+serviceId: "zbor-kg-service"
+location: europe-west4
+schema:
+  source: "./schema"
+  datasource:
+    postgresql:
+      database: "zbor-kg"
+      cloudSql:
+        instanceId: "zbor-kg-instance"
+connectorDirs:
+  - "connector"

@@ -1,0 +1,32 @@
+:host {
+  display: block;
+  padding: 24px;
+}
+
+.centered {
+  display: flex;
+  justify-content: center;
+  padding: 64px;
+}
+
+.articles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+  max-width: 1200px;
+}
+
+.article-card img[mat-card-image] {
+  max-height: 200px;
+  object-fit: cover;
+}
+
+.favorited mat-icon {
+  color: var(--mat-sys-error);
+}
+
+.state-msg {
+  text-align: center;
+  padding: 64px;
+  color: var(--mat-sys-on-surface-variant);
+}

@@ -1,0 +1,40 @@
+<div class="detail-container">
+  <div class="detail-nav">
+    <button mat-button class="back-btn" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+      Назад на афере
+    </button>
+    @if (auth.isLoggedIn() && affair()) {
+      <button mat-icon-button (click)="editAffair()" matTooltip="Уреди аферу">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button (click)="deleteAffair()" matTooltip="Обриши аферу">
+        <mat-icon>delete</mat-icon>
+      </button>
+    }
+  </div>
+
+  @if (loading()) {
+    <div class="centered"><mat-spinner /></div>
+  } @else if (!affair()) {
+    <p class="state-msg">Афера није пронађена.</p>
+  } @else {
+    <article class="detail-article">
+      @if (affair()!.imageUrl) {
+        <img class="detail-image" [src]="affair()!.imageUrl!" [alt]="affair()!.title">
+      }
+
+      <div class="detail-body">
+        <div class="detail-meta">
+          <span class="date">{{ affair()!.publishedAt | date:'dd.MM.yyyy' }}</span>
+        </div>
+
+        <h1 class="detail-title">{{ affair()!.title }}</h1>
+
+        @if (affair()!.content) {
+          <div class="detail-content" [innerHTML]="affair()!.content"></div>
+        }
+      </div>
+    </article>
+  }
+</div>

@@ -54,6 +54,9 @@
               <button mat-icon-button matTooltip="Уреди вест" (click)="editArticle(article.id)">
                 <mat-icon>edit</mat-icon>
               </button>
+              <button mat-icon-button matTooltip="Обриши вест" (click)="deleteArticle(article, $event)">
+                <mat-icon>delete</mat-icon>
+              </button>
               <button mat-icon-button (click)="toggleFavorite(article.id)"
                       [class.favorited]="isFavorite(article.id)">
                 <mat-icon>{{ isFavorite(article.id) ? 'favorite' : 'favorite_border' }}</mat-icon>

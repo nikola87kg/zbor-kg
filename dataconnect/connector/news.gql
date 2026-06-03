@@ -25,7 +25,7 @@ query ListNewsArticles @auth(level: PUBLIC, insecureReason: "News articles are p
 }
 
 query ListUserNewsPreferences @auth(level: USER) {
-  userNewsPreferences(where: { userId: { eq_expr: "auth.uid" } }) {
+  userNewsPreferences(where: { authUid: { eq_expr: "auth.uid" } }) {
     newsArticleId
     isRead
     isFavorite
@@ -70,13 +70,17 @@ mutation UpdateNewsArticle(
   })
 }
 
+mutation DeleteNewsArticle($id: UUID!) @auth(level: USER, insecureReason: "Any authenticated user can delete news articles") {
+  newsArticle_delete(id: $id)
+}
+
 mutation SetNewsPreference(
   $newsArticleId: UUID!
   $isFavorite: Boolean!
   $isRead: Boolean!
 ) @auth(level: USER) {
   userNewsPreference_upsert(data: {
-    userId_expr: "auth.uid"
+    authUid_expr: "auth.uid"
     newsArticleId: $newsArticleId
     isFavorite: $isFavorite
     isRead: $isRead

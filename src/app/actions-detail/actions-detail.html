@@ -1,0 +1,46 @@
+<div class="detail-container">
+  <div class="detail-nav">
+    <button mat-button class="back-btn" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+      Назад на акције
+    </button>
+    @if (auth.isLoggedIn() && action()) {
+      <button mat-icon-button (click)="editAction()" matTooltip="Уреди акцију">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button (click)="deleteAction()" matTooltip="Обриши акцију">
+        <mat-icon>delete</mat-icon>
+      </button>
+    }
+  </div>
+
+  @if (loading()) {
+    <div class="centered"><mat-spinner /></div>
+  } @else if (!action()) {
+    <p class="state-msg">Акција није пронађена.</p>
+  } @else {
+    <article class="detail-article">
+      @if (action()!.imageUrl) {
+        <img class="detail-image" [src]="action()!.imageUrl!" [alt]="action()!.title">
+      }
+
+      <div class="detail-body">
+        <div class="detail-meta">
+          <span class="date">{{ action()!.date | date:'dd.MM.yyyy' }}</span>
+          @if (action()!.location) {
+            <span class="location">
+              <mat-icon class="location-icon">place</mat-icon>
+              {{ action()!.location }}
+            </span>
+          }
+        </div>
+
+        <h1 class="detail-title">{{ action()!.title }}</h1>
+
+        @if (action()!.description) {
+          <div class="detail-description">{{ action()!.description }}</div>
+        }
+      </div>
+    </article>
+  }
+</div>

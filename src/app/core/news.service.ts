@@ -47,6 +47,11 @@ export class NewsService {
     return data.userNewsPreferences;
   }
 
+  async deleteArticle(id: string): Promise<void> {
+    const ref = mutationRef<void, { id: string }>(this.dc, 'DeleteNewsArticle', { id });
+    await executeMutation(ref);
+  }
+
   async setPreference(newsArticleId: string, isFavorite: boolean, isRead: boolean): Promise<void> {
     const ref = mutationRef<void, SetPrefVars>(
       this.dc, 'SetNewsPreference', { newsArticleId, isFavorite, isRead },

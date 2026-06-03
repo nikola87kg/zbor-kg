@@ -1,0 +1,17 @@
+:host {
+  display: block;
+  flex: 1;
+  min-height: 0;
+}
+
+mat-sidenav-container {
+  height: 100%;
+}
+
+mat-sidenav {
+  width: 240px;
+}
+
+.active-link {
+  background: rgba(0, 0, 0, 0.08);
+}

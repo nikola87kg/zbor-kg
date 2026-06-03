@@ -1,0 +1,55 @@
+query GetAffair($id: UUID!) @auth(level: PUBLIC, insecureReason: "Affairs are publicly readable") {
+  affair(id: $id) {
+    id
+    title
+    publishedAt
+    createdAt
+    content
+    imageUrl
+  }
+}
+
+query ListAffairs @auth(level: PUBLIC, insecureReason: "Affairs are publicly readable") {
+  affairs(orderBy: { publishedAt: DESC }) {
+    id
+    title
+    publishedAt
+    createdAt
+    content
+    imageUrl
+  }
+}
+
+mutation CreateAffair(
+  $title: String!
+  $publishedAt: Timestamp!
+  $content: String
+  $imageUrl: String
+) @auth(level: USER, insecureReason: "Any authenticated user can submit affairs") {
+  affair_insert(data: {
+    title: $title
+    publishedAt: $publishedAt
+    createdAt_expr: "request.time"
+    content: $content
+    imageUrl: $imageUrl
+  })
+}
+
+mutation UpdateAffair(
+  $id: UUID!
+  $title: String!
+  $publishedAt: Timestamp!
+  $content: String
+  $imageUrl: String
+) @auth(level: USER, insecureReason: "Any authenticated user can update affairs") {
+  affair_update(id: $id, data: {
+    title: $title
+    publishedAt: $publishedAt
+    content: $content
+    imageUrl: $imageUrl
+  })
+}
+
+mutation DeleteAffair($id: UUID!) @auth(level: USER, insecureReason: "Any authenticated user can delete affairs") {
+  affair_delete(id: $id)
+}

@@ -1,6 +1,6 @@
 query ListCalendarEntries @auth(level: USER) {
   calendarEntries(
-    where: { userId: { eq_expr: "auth.uid" } }
+    where: { authUid: { eq_expr: "auth.uid" } }
     orderBy: { startTime: ASC }
   ) {
     id
@@ -34,7 +34,7 @@ mutation CreateCalendarEntry(
   $isAllDay: Boolean
 ) @auth(level: USER) {
   calendarEntry_insert(data: {
-    userId_expr: "auth.uid"
+    authUid_expr: "auth.uid"
     title: $title
     startTime: $startTime
     entryTypeId: $entryTypeId
@@ -57,7 +57,7 @@ mutation UpdateCalendarEntry(
   $isAllDay: Boolean
 ) @auth(level: USER) {
   calendarEntry_updateMany(
-    where: { id: { eq: $id }, userId: { eq_expr: "auth.uid" } }
+    where: { id: { eq: $id }, authUid: { eq_expr: "auth.uid" } }
     data: {
       title: $title
       startTime: $startTime
@@ -73,6 +73,6 @@ mutation UpdateCalendarEntry(
 mutation DeleteCalendarEntry($id: UUID!) @auth(level: USER) {
   calendarEntry_deleteMany(where: {
     id: { eq: $id }
-    userId: { eq_expr: "auth.uid" }
+    authUid: { eq_expr: "auth.uid" }
   })
 }

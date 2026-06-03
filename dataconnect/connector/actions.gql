@@ -1,0 +1,61 @@
+query GetAction($id: UUID!) @auth(level: USER) {
+  action(id: $id) {
+    id
+    title
+    date
+    createdAt
+    description
+    location
+    imageUrl
+  }
+}
+
+query ListActions @auth(level: USER) {
+  actions(orderBy: { date: DESC }) {
+    id
+    title
+    date
+    createdAt
+    description
+    location
+    imageUrl
+  }
+}
+
+mutation CreateAction(
+  $title: String!
+  $date: Timestamp!
+  $description: String
+  $location: String
+  $imageUrl: String
+) @auth(level: USER) {
+  action_insert(data: {
+    title: $title
+    date: $date
+    createdAt_expr: "request.time"
+    description: $description
+    location: $location
+    imageUrl: $imageUrl
+  })
+}
+
+mutation UpdateAction(
+  $id: UUID!
+  $title: String!
+  $date: Timestamp!
+  $description: String
+  $location: String
+  $imageUrl: String
+) @auth(level: USER) {
+  action_update(id: $id, data: {
+    title: $title
+    date: $date
+    description: $description
+    location: $location
+    imageUrl: $imageUrl
+  })
+}
+
+mutation DeleteAction($id: UUID!) @auth(level: USER) {
+  action_delete(id: $id)
+}

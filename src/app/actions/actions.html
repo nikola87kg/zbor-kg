@@ -1,1 +1,72 @@
-<p>Акције</p>
+<div class="actions-container">
+
+  <div class="actions-bar">
+    <mat-form-field appearance="outline" class="search-field" subscriptSizing="dynamic">
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput
+             placeholder="Претражи акције..."
+             [value]="searchQuery()"
+             (input)="searchQuery.set($any($event.target).value)">
+      @if (searchQuery()) {
+        <button matSuffix mat-icon-button (click)="searchQuery.set('')">
+          <mat-icon>close</mat-icon>
+        </button>
+      }
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" routerLink="/akcije/nova">
+      <mat-icon>add</mat-icon>
+      Додај акцију
+    </button>
+  </div>
+
+  @if (loading()) {
+    <div class="centered"><mat-spinner /></div>
+  } @else if (error()) {
+    <p class="state-msg">{{ error() }}</p>
+  } @else {
+    <div class="actions-grid">
+      @for (action of filteredActions(); track action.id) {
+        <mat-card class="action-card">
+          @if (action.imageUrl) {
+            <img mat-card-image [src]="action.imageUrl" [alt]="action.title"
+                 class="card-image" (click)="openAction(action.id)">
+          } @else {
+            <div class="image-placeholder" (click)="openAction(action.id)"></div>
+          }
+          <mat-card-header>
+            <mat-card-title class="card-title" (click)="openAction(action.id)">
+              {{ action.title }}
+            </mat-card-title>
+            @if (action.location) {
+              <mat-card-subtitle>
+                <mat-icon class="location-icon">place</mat-icon>
+                {{ action.location }}
+              </mat-card-subtitle>
+            }
+          </mat-card-header>
+          @if (action.description) {
+            <mat-card-content>
+              <div class="description-preview">{{ action.description }}</div>
+            </mat-card-content>
+          }
+          <mat-card-actions>
+            <span class="card-date">{{ action.date | date:'dd.MM.yyyy' }}</span>
+            <span class="actions-spacer"></span>
+            <button mat-icon-button matTooltip="Уреди акцију" (click)="editAction(action.id)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button matTooltip="Обриши акцију" (click)="deleteAction(action, $event)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      } @empty {
+        <p class="state-msg">
+          {{ searchQuery() ? 'Нема резултата претраге.' : 'Нема акција за приказ.' }}
+        </p>
+      }
+    </div>
+  }
+
+</div>

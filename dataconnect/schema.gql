@@ -15,12 +15,29 @@ type NewsArticle @table {
   sourceName: String
 }
 
+type Affair @table {
+  title: String!
+  publishedAt: Timestamp!
+  createdAt: Timestamp!
+  content: String
+  imageUrl: String
+}
+
+type Action @table {
+  title: String!
+  date: Timestamp!
+  createdAt: Timestamp!
+  description: String
+  location: String
+  imageUrl: String
+}
+
 type CalendarEntryType @table {
   name: String!
 }
 
 type CalendarEntry @table {
-  user: User!
+  authUid: String!
   title: String!
   startTime: Timestamp!
   entryType: CalendarEntryType!
@@ -32,8 +49,8 @@ type CalendarEntry @table {
   reminderTime: Timestamp
 }
 
-type UserNewsPreference @table(key: ["user", "newsArticle"]) {
-  user: User!
+type UserNewsPreference @table(key: ["authUid", "newsArticle"]) {
+  authUid: String!
   newsArticle: NewsArticle!
   createdAt: Timestamp!
   isRead: Boolean

@@ -25,6 +25,7 @@ mat-card-title {
 .tab-form {
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   padding: 24px 0 8px;
   gap: 4px;
 }

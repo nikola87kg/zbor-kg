@@ -1,0 +1,78 @@
+.account-page {
+  display: flex;
+  justify-content: center;
+  padding: 32px 16px;
+}
+
+.account-card {
+  width: 100%;
+  max-width: 560px;
+
+  mat-progress-bar {
+    border-radius: 4px 4px 0 0;
+  }
+}
+
+.avatar-section {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 16px 0 24px;
+}
+
+.avatar-preview {
+  width: 88px;
+  height: 88px;
+  min-width: 88px;
+  border-radius: 50%;
+  background-color: var(--mat-sys-primary);
+  color: var(--mat-sys-on-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.avatar-initials {
+  font-size: 28px;
+  font-weight: 500;
+}
+
+.avatar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 24px;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+
+  mat-form-field {
+    flex: 1;
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 8px;
+}

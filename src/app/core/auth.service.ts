@@ -54,6 +54,15 @@ export class AuthService {
     await signOut(this.auth);
   }
 
+  async updateUserProfile(data: { displayName?: string; photoURL?: string | null }): Promise<void> {
+    const firebaseUser = this.auth.currentUser;
+    if (!firebaseUser) throw new Error('Nije prijavljen korisnik.');
+    await updateProfile(firebaseUser, data);
+    // Re-read after update — Firebase mutates the object in-place but currentUser is fresh
+    const updated = this.auth.currentUser;
+    if (updated) this._user.set(this.toUser(updated));
+  }
+
   private toUser(u: FirebaseUser): User {
     return { uid: u.uid, email: u.email, displayName: u.displayName, photoURL: u.photoURL };
   }

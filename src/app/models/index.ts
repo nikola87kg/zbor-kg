@@ -40,6 +40,40 @@ export interface CreateNewsArticleInput {
   sourceName?: string;
 }
 
+export interface Affair {
+  id: string;
+  title: string;
+  publishedAt: Date;
+  createdAt: Date;
+  content?: string | null;
+  imageUrl?: string | null;
+}
+
+export interface CreateAffairInput {
+  title: string;
+  publishedAt: Date;
+  content?: string;
+  imageUrl?: string;
+}
+
+export interface Action {
+  id: string;
+  title: string;
+  date: Date;
+  createdAt: Date;
+  description?: string | null;
+  location?: string | null;
+  imageUrl?: string | null;
+}
+
+export interface CreateActionInput {
+  title: string;
+  date: Date;
+  description?: string;
+  location?: string;
+  imageUrl?: string;
+}
+
 export interface CreateCalendarEntryInput {
   title: string;
   startTime: Date;

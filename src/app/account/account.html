@@ -1,0 +1,81 @@
+<div class="account-page">
+  <mat-card class="account-card">
+    @if (loading()) {
+    <mat-progress-bar mode="indeterminate" />
+    }
+
+    <mat-card-header>
+      <mat-card-title>Мој налог</mat-card-title>
+      <mat-card-subtitle>{{ auth.user()?.email }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="avatar-section">
+        <div class="avatar-preview">
+          @if (photoPreview()) {
+          <img [src]="photoPreview()!" alt="Profilna slika" />
+          } @else {
+          <span class="avatar-initials">{{ auth.initials() }}</span>
+          }
+        </div>
+        <div class="avatar-actions">
+          <button mat-stroked-button type="button" (click)="fileInput.click()">
+            <mat-icon>upload</mat-icon>
+            Промени слику
+          </button>
+          @if (photoPreview()) {
+          <button mat-icon-button type="button" matTooltip="Уклони слику" (click)="removePhoto()">
+            <mat-icon>delete</mat-icon>
+          </button>
+          }
+          <input #fileInput type="file" accept="image/*" hidden (change)="onFileSelected($event)" />
+        </div>
+      </div>
+
+      <mat-divider />
+
+      <form [formGroup]="form" class="profile-form" (ngSubmit)="onSave()">
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Ime</mat-label>
+            <input matInput formControlName="firstName" autocomplete="given-name" />
+            @if (form.get('firstName')?.hasError('required') && form.get('firstName')?.touched) {
+            <mat-error>Ime je obavezno.</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Prezime</mat-label>
+            <input matInput formControlName="lastName" autocomplete="family-name" />
+            @if (form.get('lastName')?.hasError('required') && form.get('lastName')?.touched) {
+            <mat-error>Prezime je obavezno.</mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Korisničko ime</mat-label>
+          <mat-icon matPrefix>alternate_email</mat-icon>
+          <input matInput formControlName="username" autocomplete="username" />
+          @if (form.get('username')?.hasError('required') && form.get('username')?.touched) {
+          <mat-error>Korisničko ime je obavezno.</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Datum rođenja</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="dateOfBirth" />
+          <mat-datepicker-toggle matSuffix [for]="picker" />
+          <mat-datepicker #picker startView="multi-year" />
+        </mat-form-field>
+
+        <div class="form-actions">
+          <button mat-flat-button color="primary" type="submit" [disabled]="loading()">
+            <mat-icon>save</mat-icon>
+            Sačuvaj
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

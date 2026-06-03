@@ -13,6 +13,7 @@ import { NewsService } from '../core/news.service';
 import { AuthService } from '../core/auth.service';
 import { NewsArticle, UserNewsPreference } from '../models';
 import { ConfirmDialog } from '../shared/confirm-dialog/confirm-dialog';
+import { StripHtmlPipe } from '../core/strip-html.pipe';
 
 @Component({
   selector: 'app-news',
@@ -26,6 +27,7 @@ import { ConfirmDialog } from '../shared/confirm-dialog/confirm-dialog';
     MatInputModule,
     MatTooltipModule,
     RouterLink,
+    StripHtmlPipe,
   ],
   templateUrl: './news.html',
   styleUrl: './news.scss',

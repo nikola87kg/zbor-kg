@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { authGuard } from './core/auth.guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'vesti', pathMatch: 'full' },
+  { path: '', loadComponent: () => import('./home/home').then(m => m.Home) },
 
   // Вести (news)
   { path: 'vesti', loadComponent: () => import('./news/news').then(m => m.News) },
@@ -17,13 +17,13 @@ export const routes: Routes = [
   { path: 'afere/:id/uredi', canActivate: [authGuard], loadComponent: () => import('./affairs-form/affairs-form').then(m => m.AffairsForm) },
 
   // Акције (actions)
-  { path: 'akcije', canActivate: [authGuard], loadComponent: () => import('./actions/actions').then(m => m.Actions) },
+  { path: 'akcije', loadComponent: () => import('./actions/actions').then(m => m.Actions) },
   { path: 'akcije/nova', canActivate: [authGuard], loadComponent: () => import('./actions-form/actions-form').then(m => m.ActionsForm) },
-  { path: 'akcije/:id', canActivate: [authGuard], loadComponent: () => import('./actions-detail/actions-detail').then(m => m.ActionsDetail) },
+  { path: 'akcije/:id', loadComponent: () => import('./actions-detail/actions-detail').then(m => m.ActionsDetail) },
   { path: 'akcije/:id/uredi', canActivate: [authGuard], loadComponent: () => import('./actions-form/actions-form').then(m => m.ActionsForm) },
 
   // Календар
-  { path: 'kalendar', canActivate: [authGuard], loadComponent: () => import('./calendar/calendar').then(m => m.Calendar) },
+  { path: 'kalendar', loadComponent: () => import('./calendar/calendar').then(m => m.Calendar) },
 
   // Auth
   { path: 'prijava', loadComponent: () => import('./login/login').then(m => m.Login) },

@@ -1,4 +1,4 @@
-query GetAction($id: UUID!) @auth(level: USER) {
+query GetAction($id: UUID!) @auth(level: PUBLIC) {
   action(id: $id) {
     id
     title
@@ -10,7 +10,7 @@ query GetAction($id: UUID!) @auth(level: USER) {
   }
 }
 
-query ListActions @auth(level: USER) {
+query ListActions @auth(level: PUBLIC) {
   actions(orderBy: { createdAt: DESC }) {
     id
     title

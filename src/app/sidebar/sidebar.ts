@@ -35,9 +35,10 @@ export class Sidebar implements OnDestroy {
   private readonly bpSub: Subscription;
 
   readonly navItems: NavItem[] = [
+    { label: 'Почетна', route: '/', icon: 'home' },
     { label: 'Вести', route: '/vesti', icon: 'newspaper' },
-    { label: 'Календар', route: '/kalendar', icon: 'calendar_today', requiresAuth: true },
-    { label: 'Акције', route: '/akcije', icon: 'campaign', requiresAuth: true },
+    { label: 'Календар', route: '/kalendar', icon: 'calendar_today' },
+    { label: 'Акције', route: '/akcije', icon: 'campaign' },
     { label: 'Афере', route: '/afere', icon: 'gavel' },
   ];
 

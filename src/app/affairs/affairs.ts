@@ -13,6 +13,7 @@ import { AffairsService } from '../core/affairs.service';
 import { AuthService } from '../core/auth.service';
 import { Affair } from '../models';
 import { ConfirmDialog } from '../shared/confirm-dialog/confirm-dialog';
+import { StripHtmlPipe } from '../core/strip-html.pipe';
 
 @Component({
   selector: 'app-affairs',
@@ -26,6 +27,7 @@ import { ConfirmDialog } from '../shared/confirm-dialog/confirm-dialog';
     MatInputModule,
     MatTooltipModule,
     RouterLink,
+    StripHtmlPipe,
   ],
   templateUrl: './affairs.html',
   styleUrl: './affairs.scss',

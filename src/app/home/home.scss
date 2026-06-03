@@ -1,0 +1,65 @@
+:host {
+  display: flex;
+  flex: 1;
+  min-height: 100%;
+}
+
+.home-page {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px;
+}
+
+.home-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+}
+
+.home-logo {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  display: block;
+
+  @media (max-width: 599px) {
+    max-width: 220px;
+  }
+}
+
+.home-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  width: 100%;
+  max-width: 480px;
+
+  @media (max-width: 599px) {
+    grid-template-columns: 1fr;
+    max-width: 280px;
+  }
+}
+
+.nav-btn {
+  height: 72px;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  border-radius: 16px;
+
+  ::ng-deep .mdc-button__label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  mat-icon {
+    font-size: 28px;
+    height: 28px;
+    width: 28px;
+  }
+}

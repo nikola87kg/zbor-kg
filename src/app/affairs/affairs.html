@@ -44,7 +44,7 @@
           </mat-card-header>
           @if (affair.content) {
             <mat-card-content>
-              <div class="content-preview" [innerHTML]="affair.content"></div>
+              <div class="content-preview">{{ affair.content | stripHtml }}</div>
             </mat-card-content>
           }
           <mat-card-actions>

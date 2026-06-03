@@ -44,7 +44,7 @@
           </mat-card-header>
           @if (article.summary) {
             <mat-card-content>
-              <div class="summary" [innerHTML]="article.summary"></div>
+              <div class="summary">{{ article.summary | stripHtml }}</div>
             </mat-card-content>
           }
           <mat-card-actions>

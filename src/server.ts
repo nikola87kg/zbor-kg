@@ -37,12 +37,19 @@ app.use(
 
 /**
  * Cloud Run sets Host to its internal *.run.app URL which Angular SSR rejects.
- * Rewrite Host to the public-facing domain from X-Forwarded-Host (set by Firebase CDN).
+ * Prefer X-Forwarded-Host (set by Firebase CDN); fall back to NG_ALLOWED_HOSTS
+ * when the raw Host looks like a Cloud Run internal address.
  */
 app.use((req, _res, next) => {
   const fwd = req.headers['x-forwarded-host'];
   if (fwd) {
     req.headers['host'] = (Array.isArray(fwd) ? fwd[0] : fwd).split(',')[0].trim();
+  } else {
+    const host = (req.headers['host'] ?? '') as string;
+    const publicHost = (process.env['NG_ALLOWED_HOSTS'] ?? '').split(',')[0].trim();
+    if (publicHost && host.endsWith('.run.app')) {
+      req.headers['host'] = publicHost;
+    }
   }
   next();
 });

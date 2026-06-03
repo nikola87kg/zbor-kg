@@ -1,6 +1,6 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -8,6 +8,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
 import { ActionsService } from '../core/actions.service';
+import { AuthService } from '../core/auth.service';
 import { Action } from '../models';
 import { DayDialog } from './day-dialog';
 
@@ -21,6 +22,7 @@ interface CalendarDay {
   selector: 'app-calendar',
   imports: [
     DatePipe,
+    RouterLink,
     MatButtonModule,
     MatIconModule,
     MatProgressSpinnerModule,
@@ -34,6 +36,7 @@ export class Calendar implements OnInit {
   private readonly actionsService = inject(ActionsService);
   private readonly router = inject(Router);
   private readonly dialog = inject(MatDialog);
+  readonly auth = inject(AuthService);
 
   readonly loading = signal(true);
   readonly viewDate = signal(new Date());

@@ -10,7 +10,13 @@ import { join } from 'node:path';
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
 const app = express();
-const angularApp = new AngularNodeAppEngine();
+const angularApp = new AngularNodeAppEngine({
+  allowedHosts: [
+    'zbor-kg--zbor-kg.europe-west4.hosted.app',
+    't-1288304436---zbor-kg-hkk3vdc72q-ez.a.run.app',
+    'localhost',
+  ],
+});
 
 /**
  * Example Express Rest API endpoints can be defined here.
@@ -41,9 +47,16 @@ app.use(
 app.use((req, res, next) => {
   angularApp
     .handle(req)
-    .then((response) =>
-      response ? writeResponseToNodeResponse(response, res) : next(),
-    )
+    .then((response) => {
+      if (!response) { next(); return; }
+      // Cloud Run does not allow setting the 'host' header in responses.
+      const headers = new Headers(response.headers);
+      headers.delete('host');
+      return writeResponseToNodeResponse(
+        new Response(response.body, { status: response.status, statusText: response.statusText, headers }),
+        res,
+      );
+    })
     .catch(next);
 });
 

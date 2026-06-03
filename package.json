@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "prod": "ng build && firebase deploy --only hosting",
     "serve:ssr:zbor": "node dist/zbor/server/server.mjs"
   },
   "private": true,

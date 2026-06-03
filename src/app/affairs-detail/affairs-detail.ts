@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AffairsService } from '../core/affairs.service';
 import { AuthService } from '../core/auth.service';
+import { SeoService } from '../core/seo.service';
 import { Affair } from '../models';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialog } from '../shared/confirm-dialog/confirm-dialog';
@@ -18,6 +19,7 @@ import { ConfirmDialog } from '../shared/confirm-dialog/confirm-dialog';
 })
 export class AffairsDetail implements OnInit {
   private readonly affairsService = inject(AffairsService);
+  private readonly seo = inject(SeoService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly dialog = inject(MatDialog);
@@ -29,7 +31,15 @@ export class AffairsDetail implements OnInit {
   async ngOnInit(): Promise<void> {
     const id = this.route.snapshot.paramMap.get('id')!;
     try {
-      this.affair.set(await this.affairsService.getAffair(id));
+      const affair = await this.affairsService.getAffair(id);
+      this.affair.set(affair);
+      if (affair) {
+        this.seo.setPage({
+          title: affair.title,
+          description: affair.content ?? '',
+          image: affair.imageUrl,
+        });
+      }
     } finally {
       this.loading.set(false);
     }

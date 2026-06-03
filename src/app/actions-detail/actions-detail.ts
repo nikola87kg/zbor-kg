@@ -7,6 +7,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialog } from '@angular/material/dialog';
 import { ActionsService } from '../core/actions.service';
 import { AuthService } from '../core/auth.service';
+import { SeoService } from '../core/seo.service';
 import { Action } from '../models';
 import { ConfirmDialog } from '../shared/confirm-dialog/confirm-dialog';
 
@@ -18,6 +19,7 @@ import { ConfirmDialog } from '../shared/confirm-dialog/confirm-dialog';
 })
 export class ActionsDetail implements OnInit {
   private readonly actionsService = inject(ActionsService);
+  private readonly seo = inject(SeoService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly dialog = inject(MatDialog);
@@ -29,7 +31,15 @@ export class ActionsDetail implements OnInit {
   async ngOnInit(): Promise<void> {
     const id = this.route.snapshot.paramMap.get('id')!;
     try {
-      this.action.set(await this.actionsService.getAction(id));
+      const action = await this.actionsService.getAction(id);
+      this.action.set(action);
+      if (action) {
+        this.seo.setPage({
+          title: action.title,
+          description: action.description ?? '',
+          image: action.imageUrl,
+        });
+      }
     } finally {
       this.loading.set(false);
     }

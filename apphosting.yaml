@@ -5,10 +5,6 @@ runConfig:
 
 env:
   - variable: NG_TRUST_PROXY_HEADERS
-    value: "1"
-    availability:
-      - RUNTIME
+    value: "true"
   - variable: NG_ALLOWED_HOSTS
     value: "zbor-kg--zbor-kg.europe-west4.hosted.app"
-    availability:
-      - RUNTIME

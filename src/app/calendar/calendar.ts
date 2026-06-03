@@ -6,8 +6,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialog } from '@angular/material/dialog';
 import { ActionsService } from '../core/actions.service';
 import { Action } from '../models';
+import { DayDialog } from './day-dialog';
 
 interface CalendarDay {
   day: number;
@@ -31,6 +33,7 @@ interface CalendarDay {
 export class Calendar implements OnInit {
   private readonly actionsService = inject(ActionsService);
   private readonly router = inject(Router);
+  private readonly dialog = inject(MatDialog);
 
   readonly loading = signal(true);
   readonly viewDate = signal(new Date());
@@ -46,13 +49,15 @@ export class Calendar implements OnInit {
     return `${this.MONTHS[d.getMonth()]} ${d.getFullYear()}`;
   });
 
-  /** Actions in the currently viewed month */
+  /** Actions in the currently viewed month, sorted oldest first */
   readonly monthActions = computed(() => {
     const d = this.viewDate();
-    return this.actionsService.actions().filter(a => {
-      const ad = new Date(a.date);
-      return ad.getFullYear() === d.getFullYear() && ad.getMonth() === d.getMonth();
-    });
+    return this.actionsService.actions()
+      .filter(a => {
+        const ad = new Date(a.date);
+        return ad.getFullYear() === d.getFullYear() && ad.getMonth() === d.getMonth();
+      })
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   });
 
   /** Calendar grid: null = empty cell, CalendarDay = real day */
@@ -109,6 +114,21 @@ export class Calendar implements OnInit {
       d.getMonth() === this.today.getMonth() &&
       d.getFullYear() === this.today.getFullYear()
     );
+  }
+
+  openDayDialog(cell: CalendarDay): void {
+    const d = this.viewDate();
+    const date = new Date(d.getFullYear(), d.getMonth(), cell.day);
+    const months = [
+      'јануар', 'фебруар', 'март', 'април', 'мај', 'јун',
+      'јул', 'август', 'септембар', 'октобар', 'новембар', 'децембар',
+    ];
+    const dateLabel = `${cell.day}. ${months[d.getMonth()]} ${d.getFullYear()}.`;
+    this.dialog.open(DayDialog, {
+      data: { date, dateLabel, actions: cell.actions },
+      width: '400px',
+      maxWidth: '95vw',
+    });
   }
 
   openAction(id: string): void {

@@ -31,8 +31,9 @@
       <div class="day-cell"
         [class.today]="isToday(cell.day)"
         [class.has-action]="cell.hasAction"
-        [matTooltip]="cell.hasAction ? tooltipFor(cell) : ''"
-        matTooltipPosition="above">
+        [matTooltip]="tooltipFor(cell)"
+        matTooltipPosition="above"
+        (click)="openDayDialog(cell)">
         <span class="day-num">{{ cell.day }}</span>
       </div>
       }
@@ -46,10 +47,12 @@
   <div class="month-actions">
     <h3 class="section-title">Акције за {{ monthLabel() }}</h3>
     @for (action of monthActions(); track action.id) {
-    <mat-card class="action-item"
-      (click)="openAction(action.id)">
+    <mat-card class="action-item" (click)="openAction(action.id)">
       <mat-card-content class="action-item-content">
-        <div class="action-dot"></div>
+        <div class="action-date-badge">
+          <span class="badge-day">{{ action.date | date:'d' }}</span>
+          <span class="badge-month">{{ action.date | date:'MMM' }}</span>
+        </div>
         <div class="action-info">
           <span class="action-title">{{ action.title }}</span>
           @if (action.location) {
@@ -58,7 +61,7 @@
           </span>
           }
         </div>
-        <span class="action-date">{{ action.date | date:'dd.MM.' }}</span>
+        <mat-icon class="action-chevron">chevron_right</mat-icon>
       </mat-card-content>
     </mat-card>
     }

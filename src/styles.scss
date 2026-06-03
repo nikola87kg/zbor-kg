@@ -20,9 +20,17 @@ html.dark-theme {
   ));
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
+  overflow-x: hidden;
+  min-width: 360px;
 }
 
 // Toolbar user button — MDC wraps content in .mdc-button__label so flex must be set here

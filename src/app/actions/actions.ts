@@ -39,12 +39,10 @@ export class Actions implements OnInit {
   readonly loading = signal(true);
   readonly error = signal('');
   readonly searchQuery = signal('');
-  readonly actions = signal<Action[]>([]);
-
   readonly filteredActions = computed(() => {
     const q = this.searchQuery().toLowerCase().trim();
-    if (!q) return this.actions();
-    return this.actions().filter(a =>
+    if (!q) return this.actionsService.actions();
+    return this.actionsService.actions().filter(a =>
       a.title.toLowerCase().includes(q) ||
       (a.description ?? '').toLowerCase().includes(q) ||
       (a.location ?? '').toLowerCase().includes(q),
@@ -52,8 +50,14 @@ export class Actions implements OnInit {
   });
 
   async ngOnInit(): Promise<void> {
+    await this.load();
+  }
+
+  async load(): Promise<void> {
+    this.loading.set(true);
+    this.error.set('');
     try {
-      this.actions.set(await this.actionsService.listActions());
+      await this.actionsService.listActions();
     } catch (e) {
       console.error('Actions load error:', e);
       this.error.set('Грешка при учитавању акција.');
@@ -79,7 +83,6 @@ export class Actions implements OnInit {
     if (!confirmed) return;
     try {
       await this.actionsService.deleteAction(action.id);
-      this.actions.update(list => list.filter(a => a.id !== action.id));
     } catch (e) {
       console.error('Delete action error:', e);
     }

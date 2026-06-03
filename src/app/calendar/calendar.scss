@@ -1,6 +1,13 @@
 :host {
   display: block;
   padding: 24px;
+
+  @media (max-width: 599px) { padding: 12px; }
+}
+
+.calendar-page {
+  max-width: 480px;
+  margin: 0 auto;
 }
 
 .centered {
@@ -9,36 +16,166 @@
   padding: 64px;
 }
 
-.calendar-header {
+// ── Calendar card ─────────────────────────────────────────────
+
+.cal-card {
+  padding: 8px 4px 16px;
+}
+
+.cal-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
-
-  h2 { margin: 0; }
+  padding: 4px 8px 12px;
 }
 
-.form-card {
-  margin-bottom: 24px;
+.month-label {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--mat-sys-on-surface);
 }
 
-.entry-form {
+// ── 7-column grid ─────────────────────────────────────────────
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px 2px;
+  padding: 0 8px;
+}
+
+.day-name {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--mat-sys-on-surface-variant);
+  padding: 4px 0 8px;
+}
+
+.day-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  border-radius: 50%;
+  position: relative;
+  cursor: default;
+
+  @media (max-width: 599px) { height: 38px; }
+
+  &.empty { pointer-events: none; }
+
+  &.today .day-num {
+    background: var(--mat-sys-primary-container);
+    color: var(--mat-sys-on-primary-container);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+  }
+
+  &.has-action {
+    cursor: pointer;
+
+    .day-num {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      border: 2px solid var(--mat-sys-error);
+      color: var(--mat-sys-error);
+      font-weight: 600;
+    }
+
+    &.today .day-num {
+      background: var(--mat-sys-error);
+      color: white;
+      border-color: var(--mat-sys-error);
+    }
+
+    &:hover .day-num {
+      background: color-mix(in srgb, var(--mat-sys-error) 12%, transparent);
+    }
+  }
+}
+
+.day-num {
+  font-size: 14px;
+  color: var(--mat-sys-on-surface);
+}
+
+// ── Month action list ──────────────────────────────────────────
+
+.month-actions {
+  margin-top: 24px;
+}
+
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 12px;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.action-item {
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: box-shadow 0.15s;
+
+  &:hover {
+    box-shadow: var(--mat-sys-level2);
+  }
+}
+
+.action-item-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 0;
+}
+
+.action-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--mat-sys-error);
+  flex-shrink: 0;
+}
+
+.action-info {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding-top: 8px;
-
-  mat-form-field { width: 100%; }
+  gap: 2px;
 }
 
-.date-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
+.action-title {
+  font-size: 14px;
+  font-weight: 500;
 }
 
-.state-msg {
-  text-align: center;
-  padding: 64px;
+.action-location {
+  font-size: 12px;
   color: var(--mat-sys-on-surface-variant);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.loc-icon {
+  font-size: 13px;
+  height: 13px;
+  width: 13px;
+}
+
+.action-date {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--mat-sys-error);
+  flex-shrink: 0;
 }

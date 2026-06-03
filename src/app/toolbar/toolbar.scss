@@ -2,6 +2,10 @@
   flex: 1;
 }
 
+@media (max-width: 599px) {
+  .toolbar-username { display: none; }
+}
+
 .toolbar-user {
   display: flex;
   align-items: center;

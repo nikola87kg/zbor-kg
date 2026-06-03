@@ -39,20 +39,24 @@ export class Affairs implements OnInit {
   readonly loading = signal(true);
   readonly error = signal('');
   readonly searchQuery = signal('');
-  readonly affairs = signal<Affair[]>([]);
-
   readonly filteredAffairs = computed(() => {
     const q = this.searchQuery().toLowerCase().trim();
-    if (!q) return this.affairs();
-    return this.affairs().filter(a =>
+    if (!q) return this.affairsService.affairs();
+    return this.affairsService.affairs().filter(a =>
       a.title.toLowerCase().includes(q) ||
       (a.content ?? '').toLowerCase().includes(q),
     );
   });
 
   async ngOnInit(): Promise<void> {
+    await this.load();
+  }
+
+  async load(): Promise<void> {
+    this.loading.set(true);
+    this.error.set('');
     try {
-      this.affairs.set(await this.affairsService.listAffairs());
+      await this.affairsService.listAffairs();
     } catch (e) {
       console.error('Affairs load error:', e);
       this.error.set('Грешка при учитавању афера.');
@@ -78,7 +82,6 @@ export class Affairs implements OnInit {
     if (!confirmed) return;
     try {
       await this.affairsService.deleteAffair(affair.id);
-      this.affairs.update(list => list.filter(a => a.id !== affair.id));
     } catch (e) {
       console.error('Delete affair error:', e);
     }

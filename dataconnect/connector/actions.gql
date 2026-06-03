@@ -11,7 +11,7 @@ query GetAction($id: UUID!) @auth(level: USER) {
 }
 
 query ListActions @auth(level: USER) {
-  actions(orderBy: { date: DESC }) {
+  actions(orderBy: { createdAt: DESC }) {
     id
     title
     date

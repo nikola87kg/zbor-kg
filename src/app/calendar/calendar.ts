@@ -1,100 +1,121 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
+import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatListModule } from '@angular/material/list';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatDividerModule } from '@angular/material/divider';
-import { provideNativeDateAdapter } from '@angular/material/core';
-import { CalendarService } from '../core/calendar.service';
-import { CalendarEntry, CalendarEntryType } from '../models';
+import { MatCardModule } from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { ActionsService } from '../core/actions.service';
+import { Action } from '../models';
+
+interface CalendarDay {
+  day: number;
+  hasAction: boolean;
+  actions: Action[];
+}
 
 @Component({
   selector: 'app-calendar',
   imports: [
     DatePipe,
-    ReactiveFormsModule,
-    MatCardModule,
     MatButtonModule,
     MatIconModule,
     MatProgressSpinnerModule,
-    MatListModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatDividerModule,
+    MatCardModule,
+    MatTooltipModule,
   ],
-  providers: [provideNativeDateAdapter()],
   templateUrl: './calendar.html',
   styleUrl: './calendar.scss',
 })
 export class Calendar implements OnInit {
-  private readonly calendarService = inject(CalendarService);
-  private readonly fb = inject(FormBuilder);
+  private readonly actionsService = inject(ActionsService);
+  private readonly router = inject(Router);
 
   readonly loading = signal(true);
-  readonly saving = signal(false);
-  readonly error = signal('');
-  readonly showForm = signal(false);
-  readonly entries = signal<CalendarEntry[]>([]);
-  readonly entryTypes = signal<CalendarEntryType[]>([]);
+  readonly viewDate = signal(new Date());
 
-  readonly entryForm = this.fb.group({
-    title: ['', Validators.required],
-    startTime: [null as Date | null, Validators.required],
-    endTime: [null as Date | null],
-    entryTypeId: ['', Validators.required],
-    description: [''],
-    location: [''],
+  readonly MONTHS = [
+    'Јануар', 'Фебруар', 'Март', 'Април', 'Мај', 'Јун',
+    'Јул', 'Август', 'Септембар', 'Октобар', 'Новембар', 'Децембар',
+  ];
+  readonly DAY_NAMES = ['Нед', 'Пон', 'Уто', 'Сре', 'Чет', 'Пет', 'Суб'];
+
+  readonly monthLabel = computed(() => {
+    const d = this.viewDate();
+    return `${this.MONTHS[d.getMonth()]} ${d.getFullYear()}`;
   });
+
+  /** Actions in the currently viewed month */
+  readonly monthActions = computed(() => {
+    const d = this.viewDate();
+    return this.actionsService.actions().filter(a => {
+      const ad = new Date(a.date);
+      return ad.getFullYear() === d.getFullYear() && ad.getMonth() === d.getMonth();
+    });
+  });
+
+  /** Calendar grid: null = empty cell, CalendarDay = real day */
+  readonly calendarGrid = computed((): (CalendarDay | null)[] => {
+    const d = this.viewDate();
+    const year = d.getFullYear();
+    const month = d.getMonth();
+
+    const firstDay = new Date(year, month, 1).getDay(); // 0=Sun
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    const actionsByDay = new Map<number, Action[]>();
+    for (const a of this.monthActions()) {
+      const dayNum = new Date(a.date).getDate();
+      if (!actionsByDay.has(dayNum)) actionsByDay.set(dayNum, []);
+      actionsByDay.get(dayNum)!.push(a);
+    }
+
+    const cells: (CalendarDay | null)[] = [];
+    for (let i = 0; i < firstDay; i++) cells.push(null);
+    for (let day = 1; day <= daysInMonth; day++) {
+      const acts = actionsByDay.get(day) ?? [];
+      cells.push({ day, hasAction: acts.length > 0, actions: acts });
+    }
+    return cells;
+  });
+
+  readonly today = new Date();
 
   async ngOnInit(): Promise<void> {
     try {
-      const [entries, types] = await Promise.all([
-        this.calendarService.listEntries(),
-        this.calendarService.listEntryTypes(),
-      ]);
-      this.entries.set(entries);
-      this.entryTypes.set(types);
-    } catch {
-      this.error.set('Грешка при учитавању.');
+      await this.actionsService.listActions();
+    } catch (e) {
+      console.error('Calendar load error:', e);
     } finally {
       this.loading.set(false);
     }
   }
 
-  async createEntry(): Promise<void> {
-    if (this.entryForm.invalid) { this.entryForm.markAllAsTouched(); return; }
-    this.saving.set(true);
-    try {
-      const { title, startTime, endTime, entryTypeId, description, location } = this.entryForm.value;
-      await this.calendarService.createEntry({
-        title: title!,
-        startTime: startTime!,
-        entryTypeId: entryTypeId!,
-        description: description || undefined,
-        endTime: endTime || undefined,
-        location: location || undefined,
-      });
-      this.entries.set(await this.calendarService.listEntries());
-      this.entryForm.reset();
-      this.showForm.set(false);
-    } catch {
-      this.error.set('Грешка при чувању уноса.');
-    } finally {
-      this.saving.set(false);
-    }
+  prevMonth(): void {
+    const d = this.viewDate();
+    this.viewDate.set(new Date(d.getFullYear(), d.getMonth() - 1, 1));
   }
 
-  async deleteEntry(id: string): Promise<void> {
-    await this.calendarService.deleteEntry(id);
-    this.entries.update(list => list.filter(e => e.id !== id));
+  nextMonth(): void {
+    const d = this.viewDate();
+    this.viewDate.set(new Date(d.getFullYear(), d.getMonth() + 1, 1));
+  }
+
+  isToday(day: number): boolean {
+    const d = this.viewDate();
+    return (
+      day === this.today.getDate() &&
+      d.getMonth() === this.today.getMonth() &&
+      d.getFullYear() === this.today.getFullYear()
+    );
+  }
+
+  openAction(id: string): void {
+    this.router.navigate(['/akcije', id]);
+  }
+
+  tooltipFor(cell: CalendarDay): string {
+    return cell.actions.map(a => a.title).join('\n');
   }
 }

@@ -68,7 +68,10 @@
           <div class="form-actions">
             <button mat-button type="button" (click)="cancel()">Откажи</button>
             <button mat-flat-button color="primary" type="submit" [disabled]="saving()">
-              @if (saving()) { Отпремање... } @else { {{ editingAffair() ? 'Сачувај измене' : 'Сачувај аферу' }} }
+              <span class="save-content">
+                @if (saving()) { <mat-spinner diameter="18" /> }
+                {{ saving() ? 'Чекање...' : (editingAffair() ? 'Сачувај измене' : 'Сачувај аферу') }}
+              </span>
             </button>
           </div>
 

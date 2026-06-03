@@ -39,13 +39,12 @@ export class News implements OnInit {
   readonly loading = signal(true);
   readonly error = signal('');
   readonly searchQuery = signal('');
-  readonly articles = signal<NewsArticle[]>([]);
   private readonly preferences = signal<Map<string, UserNewsPreference>>(new Map());
 
   readonly filteredArticles = computed(() => {
     const q = this.searchQuery().toLowerCase().trim();
-    if (!q) return this.articles();
-    return this.articles().filter(a =>
+    if (!q) return this.newsService.articles();
+    return this.newsService.articles().filter(a =>
       a.title.toLowerCase().includes(q) ||
       (a.sourceName ?? '').toLowerCase().includes(q) ||
       (a.summary ?? '').toLowerCase().includes(q),
@@ -67,8 +66,14 @@ export class News implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+    await this.load();
+  }
+
+  async load(): Promise<void> {
+    this.loading.set(true);
+    this.error.set('');
     try {
-      this.articles.set(await this.newsService.listArticles());
+      await this.newsService.listArticles();
     } catch (e) {
       console.error('News load error:', e);
       this.error.set('Грешка при учитавању вести.');
@@ -98,7 +103,6 @@ export class News implements OnInit {
     if (!confirmed) return;
     try {
       await this.newsService.deleteArticle(article.id);
-      this.articles.update(list => list.filter(a => a.id !== article.id));
     } catch (e) {
       console.error('Delete article error:', e);
     }

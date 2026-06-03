@@ -6,6 +6,8 @@
   max-width: 800px;
   margin: 0 auto;
   padding: 16px 24px 48px;
+
+  @media (max-width: 599px) { padding: 12px 12px 32px; }
 }
 
 .detail-nav {
@@ -54,6 +56,8 @@
   font-weight: 600;
   line-height: 1.3;
   margin: 0 0 16px;
+
+  @media (max-width: 599px) { font-size: 1.35rem; }
 }
 
 .detail-content {

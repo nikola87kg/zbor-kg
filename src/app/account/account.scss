@@ -62,9 +62,9 @@
   display: flex;
   gap: 16px;
 
-  mat-form-field {
-    flex: 1;
-  }
+  mat-form-field { flex: 1; }
+
+  @media (max-width: 599px) { flex-direction: column; gap: 0; }
 }
 
 .full-width {

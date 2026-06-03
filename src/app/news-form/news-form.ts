@@ -47,8 +47,6 @@ export class NewsForm implements OnInit {
   readonly selectedFile = signal<File | null>(null);
   readonly imagePreview = signal<string | null>(null);
 
-  private articles: NewsArticle[] = [];
-
   readonly form = this.fb.group({
     title: ['', Validators.required],
     url: ['', Validators.required],
@@ -69,9 +67,9 @@ export class NewsForm implements OnInit {
   async ngOnInit(): Promise<void> {
     const id = this.route.snapshot.paramMap.get('id');
     try {
-      this.articles = await this.newsService.listArticles();
+      await this.newsService.listArticles();
       if (id) {
-        const article = this.articles.find(a => a.id === id)
+        const article = this.newsService.articles().find(a => a.id === id)
           ?? await this.newsService.getArticle(id);
         if (article) {
           this.editingArticle.set(article);
@@ -108,7 +106,7 @@ export class NewsForm implements OnInit {
     if (!title) return;
     const base = this.toSlug(title);
     const existingUrls = new Set(
-      this.articles.filter(a => a.id !== this.editingArticle()?.id).map(a => a.url),
+      this.newsService.articles().filter(a => a.id !== this.editingArticle()?.id).map(a => a.url),
     );
     let slug = `/vesti/${base}`;
     if (existingUrls.has(slug)) {

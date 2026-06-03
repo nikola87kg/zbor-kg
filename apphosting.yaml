@@ -4,7 +4,7 @@ runConfig:
   minInstances: 0
 
 env:
-  - variable: NG_TRUST_PROXY_HEADERS
-    value: "X-Forwarded-Host"
   - variable: NG_ALLOWED_HOSTS
     value: "zbor-kg--zbor-kg.europe-west4.hosted.app"
+    availability:
+      - RUNTIME

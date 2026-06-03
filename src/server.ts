@@ -10,12 +10,7 @@ import { join } from 'node:path';
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
 const app = express();
-const angularApp = new AngularNodeAppEngine({
-  allowedHosts: [
-    'zbor-kg--zbor-kg.europe-west4.hosted.app',
-  ],
-  trustProxyHeaders: ['X-Forwarded-Host'],
-});
+const angularApp = new AngularNodeAppEngine();
 
 /**
  * Example Express Rest API endpoints can be defined here.
@@ -39,6 +34,18 @@ app.use(
     redirect: false,
   }),
 );
+
+/**
+ * Cloud Run sets Host to its internal *.run.app URL which Angular SSR rejects.
+ * Rewrite Host to the public-facing domain from X-Forwarded-Host (set by Firebase CDN).
+ */
+app.use((req, _res, next) => {
+  const fwd = req.headers['x-forwarded-host'];
+  if (fwd) {
+    req.headers['host'] = (Array.isArray(fwd) ? fwd[0] : fwd).split(',')[0].trim();
+  }
+  next();
+});
 
 /**
  * Handle all other requests by rendering the Angular application.

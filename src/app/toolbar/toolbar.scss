@@ -2,8 +2,14 @@
   flex: 1;
 }
 
+.zbor-title {
+  margin-right: 10px;
+}
+
 @media (max-width: 599px) {
-  .toolbar-username { display: none; }
+  .toolbar-username {
+    display: none;
+  }
 }
 
 .toolbar-user {

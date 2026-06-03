@@ -2,7 +2,9 @@
   display: block;
   padding: 24px;
 
-  @media (max-width: 599px) { padding: 12px; }
+  @media (max-width: 599px) {
+    padding: 12px;
+  }
 }
 
 .actions-bar {
@@ -15,7 +17,9 @@
     flex-wrap: wrap;
     gap: 8px;
 
-    .search-field { max-width: 100%; }
+    .search-field {
+      max-width: 100%;
+    }
   }
 }
 
@@ -58,13 +62,17 @@
   cursor: pointer;
   transition: opacity 0.15s;
 
-  &:hover { opacity: 0.88; }
+  &:hover {
+    opacity: 0.88;
+  }
 }
 
 .card-title {
   cursor: pointer;
 
-  &:hover { text-decoration: underline; }
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 .image-placeholder {

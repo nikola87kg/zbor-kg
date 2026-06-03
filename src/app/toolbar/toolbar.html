@@ -1,28 +1,36 @@
 <mat-toolbar color="primary">
-  <button mat-icon-button (click)="menuToggle.emit()" aria-label="Toggle menu">
+  <button mat-icon-button
+    (click)="menuToggle.emit()"
+    aria-label="Toggle menu">
     <mat-icon>menu</mat-icon>
   </button>
-  <span>Збор КГ</span>
+  <span class="zbor-title">Збор</span>
 
   <span class="toolbar-spacer"></span>
 
   @if (auth.isLoggedIn()) {
-  <button mat-button [matMenuTriggerFor]="userMenu" class="toolbar-user">
+  <button mat-button
+    [matMenuTriggerFor]="userMenu"
+    class="toolbar-user">
     <span class="toolbar-username">{{ auth.user()!.displayName || auth.user()!.email }}</span>
     @if (auth.user()?.photoURL) {
     <div class="toolbar-avatar toolbar-avatar--photo">
-      <img [src]="auth.user()!.photoURL!" [alt]="auth.user()!.displayName || ''" />
+      <img [src]="auth.user()!.photoURL!"
+        [alt]="auth.user()!.displayName || ''" />
     </div>
     } @else {
     <div class="toolbar-avatar">{{ auth.initials() }}</div>
     }
   </button>
 
-  <mat-menu #userMenu="matMenu" class="user-dropdown">
-    <div class="menu-user-info" (click)="$event.stopPropagation()">
+  <mat-menu #userMenu="matMenu"
+    class="user-dropdown">
+    <div class="menu-user-info"
+      (click)="$event.stopPropagation()">
       <div class="menu-avatar">
         @if (auth.user()?.photoURL) {
-        <img [src]="auth.user()!.photoURL!" [alt]="auth.user()!.displayName || ''" />
+        <img [src]="auth.user()!.photoURL!"
+          [alt]="auth.user()!.displayName || ''" />
         } @else {
         {{ auth.initials() }}
         }
@@ -37,25 +45,30 @@
 
     <mat-divider />
 
-    <div class="menu-theme-row" (click)="$event.stopPropagation()">
+    <div class="menu-theme-row"
+      (click)="$event.stopPropagation()">
       <mat-icon>{{ theme.isDark() ? 'dark_mode' : 'light_mode' }}</mat-icon>
       <span>{{ theme.isDark() ? 'Тамна' : 'Светла' }} тема</span>
-      <mat-slide-toggle [checked]="theme.isDark()" (change)="theme.toggle()" />
+      <mat-slide-toggle [checked]="theme.isDark()"
+        (change)="theme.toggle()" />
     </div>
 
     <mat-divider />
 
-    <a mat-menu-item routerLink="/nalog">
+    <a mat-menu-item
+      routerLink="/nalog">
       <mat-icon>manage_accounts</mat-icon>
       <span>Мој налог</span>
     </a>
-    <button mat-menu-item (click)="logout()">
+    <button mat-menu-item
+      (click)="logout()">
       <mat-icon>logout</mat-icon>
       <span>Одјави се</span>
     </button>
   </mat-menu>
   } @else {
-  <a mat-button routerLink="/prijava">
+  <a mat-button
+    routerLink="/prijava">
     <mat-icon>login</mat-icon>
     Пријава
   </a>

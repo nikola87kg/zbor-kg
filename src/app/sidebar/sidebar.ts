@@ -40,6 +40,7 @@ export class Sidebar implements OnDestroy {
     { label: 'Календар', route: '/kalendar', icon: 'calendar_today' },
     { label: 'Акције', route: '/akcije', icon: 'campaign' },
     { label: 'Афере', route: '/afere', icon: 'gavel' },
+    { label: 'Пријава проблема', route: '/prijava-problema', icon: 'report_problem' },
   ];
 
   constructor() {

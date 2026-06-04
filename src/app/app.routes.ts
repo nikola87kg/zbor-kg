@@ -25,6 +25,9 @@ export const routes: Routes = [
   // Календар
   { path: 'kalendar', loadComponent: () => import('./calendar/calendar').then(m => m.Calendar) },
 
+  // Пријава проблема
+  { path: 'prijava-problema', loadComponent: () => import('./report/report').then(m => m.Report) },
+
   // Auth
   { path: 'prijava', loadComponent: () => import('./login/login').then(m => m.Login) },
   { path: 'nalog', canActivate: [authGuard], loadComponent: () => import('./account/account').then(m => m.Account) },

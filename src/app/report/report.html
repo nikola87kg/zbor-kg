@@ -1,0 +1,90 @@
+<div class="report-page">
+  <mat-card class="report-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon class="title-icon">report_problem</mat-icon>
+        Пријава проблема
+      </mat-card-title>
+      <mat-card-subtitle>Пријавите проблем у вашем граду. Пријава је анонимна.</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      @if (submitted()) {
+        <div class="success-state">
+          <mat-icon class="success-icon">check_circle</mat-icon>
+          <h3>Пријава послата!</h3>
+          <p>Хвала вам на пријави. Ваш проблем је забележен и биће размотрен.</p>
+          <button mat-flat-button (click)="reset()">Нова пријава</button>
+        </div>
+      } @else {
+        <form [formGroup]="form" (ngSubmit)="submit()" class="report-form">
+
+          <mat-form-field appearance="outline">
+            <mat-label>Ваше ime (опционо)</mat-label>
+            <mat-icon matPrefix>person</mat-icon>
+            <input matInput formControlName="name" placeholder="Нпр. Јован Јовановић">
+            @if (form.get('name')?.hasError('required') && form.get('name')?.touched) {
+              <mat-error>Ime је обавезно</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Адреса или локација проблема</mat-label>
+            <mat-icon matPrefix>location_on</mat-icon>
+            <input matInput formControlName="address" placeholder="Нпр. Улица браће Јерковић 12">
+            @if (form.get('address')?.hasError('required') && form.get('address')?.touched) {
+              <mat-error>Адреса је обавезна</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Опис проблема</mat-label>
+            <textarea matInput formControlName="description"
+                      rows="5"
+                      placeholder="Детаљно опишите проблем..."></textarea>
+            @if (form.get('description')?.hasError('required') && form.get('description')?.touched) {
+              <mat-error>Опис је обавезан</mat-error>
+            }
+          </mat-form-field>
+
+          <input #fileInput type="file" accept="image/*" hidden
+                 (change)="onFileSelected($any($event.target).files[0])">
+
+          @if (imagePreview()) {
+            <div class="image-preview-wrapper">
+              <img [src]="imagePreview()!" alt="Преглед слике" class="image-preview">
+              <button mat-icon-button type="button" class="remove-image-btn"
+                      (click)="removeImage()" matTooltip="Уклони слику">
+                <mat-icon>close</mat-icon>
+              </button>
+              <button mat-icon-button type="button" class="change-image-btn"
+                      (click)="fileInput.click()" matTooltip="Промени слику">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div>
+          } @else {
+            <button mat-stroked-button type="button" class="upload-btn"
+                    (click)="fileInput.click()">
+              <mat-icon>add_photo_alternate</mat-icon>
+              Додај фотографију (опционо)
+            </button>
+          }
+
+          @if (error()) {
+            <p class="form-error">{{ error() }}</p>
+          }
+
+          <div class="form-actions">
+            <button mat-flat-button type="submit" [disabled]="saving()">
+              <span class="save-content">
+                @if (saving()) { <mat-spinner diameter="18" /> }
+                {{ saving() ? 'Слање...' : 'Пошаљи пријаву' }}
+              </span>
+            </button>
+          </div>
+
+        </form>
+      }
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -19,6 +19,7 @@ export const serverRoutes: ServerRoute[] = [
   { path: 'akcije/:id/uredi', renderMode: RenderMode.Server },
 
   { path: 'kalendar', renderMode: RenderMode.Prerender },
+  { path: 'prijava-problema', renderMode: RenderMode.Prerender },
   { path: 'nalog', renderMode: RenderMode.Server },
   { path: 'prijava', renderMode: RenderMode.Prerender },
 

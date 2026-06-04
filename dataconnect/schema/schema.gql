@@ -49,6 +49,14 @@ type CalendarEntry @table {
   reminderTime: Timestamp
 }
 
+type ProblemReport @table {
+  name: String!
+  address: String!
+  description: String!
+  imageUrl: String
+  createdAt: Timestamp!
+}
+
 type UserNewsPreference @table(key: ["authUid", "newsArticle"]) {
   authUid: String!
   newsArticle: NewsArticle!

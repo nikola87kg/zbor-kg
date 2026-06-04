@@ -1,0 +1,25 @@
+mutation SubmitReport(
+  $name: String!
+  $address: String!
+  $description: String!
+  $imageUrl: String
+) @auth(level: PUBLIC, insecureReason: "Anyone can submit a problem report") {
+  problemReport_insert(data: {
+    name: $name
+    address: $address
+    description: $description
+    imageUrl: $imageUrl
+    createdAt_expr: "request.time"
+  })
+}
+
+query ListReports @auth(level: USER) {
+  problemReports(orderBy: { createdAt: DESC }) {
+    id
+    name
+    address
+    description
+    imageUrl
+    createdAt
+  }
+}

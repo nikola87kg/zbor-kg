@@ -74,6 +74,15 @@ export interface CreateActionInput {
   imageUrl?: string;
 }
 
+export interface ProblemReport {
+  id: string;
+  name: string;
+  address: string;
+  description: string;
+  imageUrl?: string | null;
+  createdAt: Date;
+}
+
 export interface CreateCalendarEntryInput {
   title: string;
   startTime: Date;

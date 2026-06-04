@@ -27,6 +27,7 @@ export const routes: Routes = [
 
   // Пријава проблема
   { path: 'prijava-problema', loadComponent: () => import('./report/report').then(m => m.Report) },
+  { path: 'prijavljeni-problemi', canActivate: [authGuard], loadComponent: () => import('./reports-list/reports-list').then(m => m.ReportsList) },
 
   // Auth
   { path: 'prijava', loadComponent: () => import('./login/login').then(m => m.Login) },

@@ -1,0 +1,71 @@
+:host {
+  display: block;
+  padding: 24px;
+
+  @media (max-width: 599px) {
+    padding: 12px;
+  }
+}
+
+.page-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 24px;
+  font-size: 22px;
+  font-weight: 500;
+
+  mat-icon {
+    font-size: 26px;
+    height: 26px;
+    width: 26px;
+  }
+}
+
+.reports-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+  max-width: 1200px;
+
+  @media (max-width: 599px) {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+.report-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-image {
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-address {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 15px;
+}
+
+.address-icon {
+  font-size: 16px;
+  height: 16px;
+  width: 16px;
+  color: var(--mat-sys-primary);
+}
+
+.description {
+  margin: 0;
+  white-space: pre-wrap;
+  line-height: 1.5;
+}
+
+.state-msg {
+  text-align: center;
+  padding: 64px;
+  color: var(--mat-sys-on-surface-variant);
+}

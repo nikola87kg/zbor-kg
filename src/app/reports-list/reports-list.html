@@ -1,0 +1,50 @@
+<div class="reports-container">
+
+  <h2 class="page-title">
+    <mat-icon>report_problem</mat-icon>
+    Пријављени проблеми
+  </h2>
+
+  @if (loading()) {
+    <div class="skeleton-grid">
+      @for (i of [1,2,3,4,5,6]; track i) {
+        <div class="skeleton-card">
+          <div class="skeleton skeleton-img"></div>
+          <div class="skeleton-body">
+            <div class="skeleton skeleton-line" style="width:55%"></div>
+            <div class="skeleton skeleton-line" style="width:40%"></div>
+            <div class="skeleton skeleton-line" style="width:80%; margin-top:6px"></div>
+            <div class="skeleton skeleton-line" style="width:65%"></div>
+          </div>
+        </div>
+      }
+    </div>
+  } @else if (error()) {
+    <p class="state-msg">{{ error() }}</p>
+  } @else {
+    <div class="reports-grid">
+      @for (report of reports(); track report.id) {
+        <mat-card class="report-card">
+          @if (report.imageUrl) {
+            <img mat-card-image [src]="report.imageUrl" [alt]="report.address" class="card-image">
+          }
+          <mat-card-header>
+            <mat-card-title class="card-address">
+              <mat-icon class="address-icon">location_on</mat-icon>
+              {{ report.address }}
+            </mat-card-title>
+            <mat-card-subtitle>
+              {{ report.name || 'Анонимно' }} &bull; {{ report.createdAt | date:'dd.MM.yyyy HH:mm' }}
+            </mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p class="description">{{ report.description }}</p>
+          </mat-card-content>
+        </mat-card>
+      } @empty {
+        <p class="state-msg">Нема пријављених проблема.</p>
+      }
+    </div>
+  }
+
+</div>

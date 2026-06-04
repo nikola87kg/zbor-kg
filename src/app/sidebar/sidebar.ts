@@ -41,6 +41,7 @@ export class Sidebar implements OnDestroy {
     { label: 'Акције', route: '/akcije', icon: 'campaign' },
     { label: 'Афере', route: '/afere', icon: 'gavel' },
     { label: 'Пријава проблема', route: '/prijava-problema', icon: 'report_problem' },
+    { label: 'Проблеми', route: '/prijavljeni-problemi', icon: 'list_alt', requiresAuth: true },
   ];
 
   constructor() {

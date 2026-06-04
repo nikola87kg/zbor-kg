@@ -1,4 +1,10 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -19,6 +25,7 @@ import { StripHtmlPipe } from '../core/strip-html.pipe';
   selector: 'app-affairs',
   imports: [
     DatePipe,
+    RouterLink,
     MatCardModule,
     MatButtonModule,
     MatIconModule,
@@ -26,7 +33,6 @@ import { StripHtmlPipe } from '../core/strip-html.pipe';
     MatFormFieldModule,
     MatInputModule,
     MatTooltipModule,
-    RouterLink,
     StripHtmlPipe,
   ],
   templateUrl: './affairs.html',
@@ -44,10 +50,11 @@ export class Affairs implements OnInit {
   readonly filteredAffairs = computed(() => {
     const q = this.searchQuery().toLowerCase().trim();
     if (!q) return this.affairsService.affairs();
-    return this.affairsService.affairs().filter(a =>
-      a.title.toLowerCase().includes(q) ||
-      (a.content ?? '').toLowerCase().includes(q),
-    );
+    return this.affairsService
+      .affairs()
+      .filter(
+        (a) => a.title.toLowerCase().includes(q) || (a.content ?? '').toLowerCase().includes(q),
+      );
   });
 
   async ngOnInit(): Promise<void> {
@@ -78,7 +85,10 @@ export class Affairs implements OnInit {
   async deleteAffair(affair: Affair, event: Event): Promise<void> {
     event.stopPropagation();
     const ref = this.dialog.open(ConfirmDialog, {
-      data: { title: 'Обриши аферу', message: `Да ли сте сигурни да желите да обришете "${affair.title}"?` },
+      data: {
+        title: 'Обриши аферу',
+        message: `Да ли сте сигурни да желите да обришете "${affair.title}"?`,
+      },
     });
     const confirmed = await ref.afterClosed().toPromise();
     if (!confirmed) return;

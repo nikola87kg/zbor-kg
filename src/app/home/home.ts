@@ -5,7 +5,11 @@ import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, MatButtonModule, MatIconModule],
+  imports: [
+    RouterLink,
+    MatButtonModule,
+    MatIconModule,
+  ],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })

@@ -49,77 +49,85 @@ export interface DayDialogData {
       }
     </mat-dialog-actions>
   `,
-  styles: [`
-    .dialog-body {
-      min-width: 280px;
-      padding-top: 4px;
-      padding-bottom: 4px;
-    }
-
-    .no-events {
-      color: var(--mat-sys-on-surface-variant);
-      font-size: 14px;
-      margin: 8px 0 16px;
-    }
-
-    .event-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 8px;
-      margin: 0 -8px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.15s;
-
-      &:not(:last-child) {
-        border-bottom: 1px solid var(--mat-sys-outline-variant);
-        border-radius: 0;
+  styles: [
+    `
+      .dialog-body {
+        min-width: 280px;
+        padding-top: 4px;
+        padding-bottom: 4px;
       }
 
-      &:hover { background: var(--mat-sys-surface-variant); }
-    }
+      .no-events {
+        color: var(--mat-sys-on-surface-variant);
+        font-size: 14px;
+        margin: 8px 0 16px;
+      }
 
-    .event-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      border: 2px solid var(--mat-sys-error);
-      flex-shrink: 0;
-    }
+      .event-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 8px;
+        margin: 0 -8px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.15s;
 
-    .event-info {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      overflow: hidden;
-    }
+        &:not(:last-child) {
+          border-bottom: 1px solid var(--mat-sys-outline-variant);
+          border-radius: 0;
+        }
 
-    .event-title {
-      font-size: 14px;
-      font-weight: 500;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
+        &:hover {
+          background: var(--mat-sys-surface-variant);
+        }
+      }
 
-    .event-location {
-      font-size: 12px;
-      color: var(--mat-sys-on-surface-variant);
-      display: flex;
-      align-items: center;
-      gap: 2px;
-    }
+      .event-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        border: 2px solid var(--mat-sys-error);
+        flex-shrink: 0;
+      }
 
-    .loc-icon { font-size: 13px; height: 13px; width: 13px; }
+      .event-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        overflow: hidden;
+      }
 
-    .arrow-icon {
-      font-size: 20px;
-      color: var(--mat-sys-on-surface-variant);
-      flex-shrink: 0;
-    }
-  `],
+      .event-title {
+        font-size: 14px;
+        font-weight: 500;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .event-location {
+        font-size: 12px;
+        color: var(--mat-sys-on-surface-variant);
+        display: flex;
+        align-items: center;
+        gap: 2px;
+      }
+
+      .loc-icon {
+        font-size: 13px;
+        height: 13px;
+        width: 13px;
+      }
+
+      .arrow-icon {
+        font-size: 20px;
+        color: var(--mat-sys-on-surface-variant);
+        flex-shrink: 0;
+      }
+    `,
+  ],
 })
 export class DayDialog {
   readonly data = inject<DayDialogData>(MAT_DIALOG_DATA);

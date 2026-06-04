@@ -10,7 +10,12 @@ import { NewsArticle } from '../models';
 
 @Component({
   selector: 'app-news-detail',
-  imports: [DatePipe, MatButtonModule, MatIconModule, MatProgressSpinnerModule],
+  imports: [
+    DatePipe,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+  ],
   templateUrl: './news-detail.html',
   styleUrl: './news-detail.scss',
 })

@@ -1,4 +1,11 @@
-import { Component, OnInit, computed, effect, inject, signal } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  computed,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -19,6 +26,7 @@ import { StripHtmlPipe } from '../core/strip-html.pipe';
   selector: 'app-news',
   imports: [
     DatePipe,
+    RouterLink,
     MatCardModule,
     MatButtonModule,
     MatIconModule,
@@ -26,7 +34,6 @@ import { StripHtmlPipe } from '../core/strip-html.pipe';
     MatFormFieldModule,
     MatInputModule,
     MatTooltipModule,
-    RouterLink,
     StripHtmlPipe,
   ],
   templateUrl: './news.html',
@@ -46,11 +53,14 @@ export class News implements OnInit {
   readonly filteredArticles = computed(() => {
     const q = this.searchQuery().toLowerCase().trim();
     if (!q) return this.newsService.articles();
-    return this.newsService.articles().filter(a =>
-      a.title.toLowerCase().includes(q) ||
-      (a.sourceName ?? '').toLowerCase().includes(q) ||
-      (a.summary ?? '').toLowerCase().includes(q),
-    );
+    return this.newsService
+      .articles()
+      .filter(
+        (a) =>
+          a.title.toLowerCase().includes(q) ||
+          (a.sourceName ?? '').toLowerCase().includes(q) ||
+          (a.summary ?? '').toLowerCase().includes(q),
+      );
   });
 
   constructor() {
@@ -58,9 +68,10 @@ export class News implements OnInit {
     // da auth token grešla ne blokira prikaz vesti
     effect(() => {
       if (this.auth.isLoggedIn()) {
-        this.newsService.listUserPreferences()
-          .then(prefs => this.preferences.set(new Map(prefs.map(p => [p.newsArticleId, p]))))
-          .catch(e => console.error('Preferences load error:', e));
+        this.newsService
+          .listUserPreferences()
+          .then((prefs) => this.preferences.set(new Map(prefs.map((p) => [p.newsArticleId, p]))))
+          .catch((e) => console.error('Preferences load error:', e));
       } else {
         this.preferences.set(new Map());
       }
@@ -99,7 +110,10 @@ export class News implements OnInit {
   async deleteArticle(article: NewsArticle, event: Event): Promise<void> {
     event.stopPropagation();
     const ref = this.dialog.open(ConfirmDialog, {
-      data: { title: 'Обриши вест', message: `Да ли сте сигурни да желите да обришете "${article.title}"?` },
+      data: {
+        title: 'Обриши вест',
+        message: `Да ли сте сигурни да желите да обришете "${article.title}"?`,
+      },
     });
     const confirmed = await ref.afterClosed().toPromise();
     if (!confirmed) return;

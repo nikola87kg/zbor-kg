@@ -69,8 +69,9 @@ export class NewsForm implements OnInit {
     try {
       await this.newsService.listArticles();
       if (id) {
-        const article = this.newsService.articles().find(a => a.id === id)
-          ?? await this.newsService.getArticle(id);
+        const article =
+          this.newsService.articles().find((a) => a.id === id) ??
+          (await this.newsService.getArticle(id));
         if (article) {
           this.editingArticle.set(article);
           this.form.setValue({
@@ -92,7 +93,7 @@ export class NewsForm implements OnInit {
     if (!file) return;
     this.selectedFile.set(file);
     const reader = new FileReader();
-    reader.onload = e => this.imagePreview.set(e.target?.result as string);
+    reader.onload = (e) => this.imagePreview.set(e.target?.result as string);
     reader.readAsDataURL(file);
   }
 
@@ -106,7 +107,10 @@ export class NewsForm implements OnInit {
     if (!title) return;
     const base = this.toSlug(title);
     const existingUrls = new Set(
-      this.newsService.articles().filter(a => a.id !== this.editingArticle()?.id).map(a => a.url),
+      this.newsService
+        .articles()
+        .filter((a) => a.id !== this.editingArticle()?.id)
+        .map((a) => a.url),
     );
     let slug = `/vesti/${base}`;
     if (existingUrls.has(slug)) {
@@ -120,7 +124,10 @@ export class NewsForm implements OnInit {
   }
 
   async submit(): Promise<void> {
-    if (this.form.invalid) { this.form.markAllAsTouched(); return; }
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
     this.saving.set(true);
     try {
       let imageUrl: string | undefined;
@@ -159,12 +166,43 @@ export class NewsForm implements OnInit {
 
   private toSlug(text: string): string {
     const cyr: Record<string, string> = {
-      'а':'a','б':'b','в':'v','г':'g','д':'d','ђ':'dj','е':'e','ж':'zh',
-      'з':'z','и':'i','ј':'j','к':'k','л':'l','љ':'lj','м':'m','н':'n',
-      'њ':'nj','о':'o','п':'p','р':'r','с':'s','т':'t','ћ':'c','у':'u',
-      'ф':'f','х':'h','ц':'c','ч':'ch','џ':'dz','ш':'sh',
+      а: 'a',
+      б: 'b',
+      в: 'v',
+      г: 'g',
+      д: 'd',
+      ђ: 'dj',
+      е: 'e',
+      ж: 'zh',
+      з: 'z',
+      и: 'i',
+      ј: 'j',
+      к: 'k',
+      л: 'l',
+      љ: 'lj',
+      м: 'm',
+      н: 'n',
+      њ: 'nj',
+      о: 'o',
+      п: 'p',
+      р: 'r',
+      с: 's',
+      т: 't',
+      ћ: 'c',
+      у: 'u',
+      ф: 'f',
+      х: 'h',
+      ц: 'c',
+      ч: 'ch',
+      џ: 'dz',
+      ш: 'sh',
     };
-    return text.toLowerCase().split('').map(c => cyr[c] ?? c).join('')
-      .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    return text
+      .toLowerCase()
+      .split('')
+      .map((c) => cyr[c] ?? c)
+      .join('')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
   }
 }

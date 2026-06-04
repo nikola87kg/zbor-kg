@@ -23,7 +23,18 @@
   </div>
 
   @if (loading()) {
-    <div class="centered"><mat-spinner /></div>
+    <div class="skeleton-grid">
+      @for (i of [1,2,3,4,5,6]; track i) {
+        <div class="skeleton-card">
+          <div class="skeleton skeleton-img"></div>
+          <div class="skeleton-body">
+            <div class="skeleton skeleton-line" style="width:72%"></div>
+            <div class="skeleton skeleton-line" style="width:50%"></div>
+            <div class="skeleton skeleton-line" style="width:35%; margin-top:6px"></div>
+          </div>
+        </div>
+      }
+    </div>
   } @else if (error()) {
     <p class="state-msg">{{ error() }}</p>
   } @else {
@@ -32,9 +43,13 @@
         <mat-card class="article-card">
           @if (article.imageUrl) {
             <img mat-card-image [src]="article.imageUrl" [alt]="article.title"
-                 class="card-image" (click)="openArticle(article.id)">
+                 class="card-image"
+                 [style.view-transition-name]="'news-' + article.id"
+                 (click)="openArticle(article.id)">
           } @else {
-            <div class="image-placeholder" (click)="openArticle(article.id)"></div>
+            <div class="image-placeholder"
+                 [style.view-transition-name]="'news-' + article.id"
+                 (click)="openArticle(article.id)"></div>
           }
           <mat-card-header>
             <mat-card-title class="card-title" (click)="openArticle(article.id)">

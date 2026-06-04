@@ -86,7 +86,7 @@ export class AffairsForm implements OnInit {
     if (!file) return;
     this.selectedFile.set(file);
     const reader = new FileReader();
-    reader.onload = e => this.imagePreview.set(e.target?.result as string);
+    reader.onload = (e) => this.imagePreview.set(e.target?.result as string);
     reader.readAsDataURL(file);
   }
 
@@ -96,7 +96,10 @@ export class AffairsForm implements OnInit {
   }
 
   async submit(): Promise<void> {
-    if (this.form.invalid) { this.form.markAllAsTouched(); return; }
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
     this.saving.set(true);
     try {
       let imageUrl: string | undefined;

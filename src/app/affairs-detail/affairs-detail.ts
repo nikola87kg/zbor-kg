@@ -13,7 +13,12 @@ import { ConfirmDialog } from '../shared/confirm-dialog/confirm-dialog';
 
 @Component({
   selector: 'app-affairs-detail',
-  imports: [DatePipe, MatButtonModule, MatIconModule, MatProgressSpinnerModule],
+  imports: [
+    DatePipe,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+  ],
   templateUrl: './affairs-detail.html',
   styleUrl: './affairs-detail.scss',
 })
@@ -57,7 +62,10 @@ export class AffairsDetail implements OnInit {
     const affair = this.affair();
     if (!affair) return;
     const ref = this.dialog.open(ConfirmDialog, {
-      data: { title: 'Обриши аферу', message: `Да ли сте сигурни да желите да обришете "${affair.title}"?` },
+      data: {
+        title: 'Обриши аферу',
+        message: `Да ли сте сигурни да желите да обришете "${affair.title}"?`,
+      },
     });
     const confirmed = await ref.afterClosed().toPromise();
     if (!confirmed) return;

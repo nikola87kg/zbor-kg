@@ -45,7 +45,7 @@ export class Sidebar implements OnDestroy {
 
   constructor() {
     const observer = inject(BreakpointObserver);
-    this.bpSub = observer.observe('(max-width: 599px)').subscribe(result => {
+    this.bpSub = observer.observe('(max-width: 599px)').subscribe((result) => {
       this.isMobile.set(result.matches);
       // On mobile start closed; on desktop start open
       this.isOpen.set(!result.matches);
@@ -57,7 +57,7 @@ export class Sidebar implements OnDestroy {
   }
 
   toggle(): void {
-    this.isOpen.update(open => !open);
+    this.isOpen.update((open) => !open);
   }
 
   closeIfMobile(): void {

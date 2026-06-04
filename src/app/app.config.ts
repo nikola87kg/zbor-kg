@@ -1,6 +1,6 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideRouter } from '@angular/router';
-import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
+import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
+import { provideRouter, withViewTransitions } from '@angular/router';
+import { provideClientHydration, withEventReplay, withIncrementalHydration } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { routes } from './app.routes';
@@ -8,8 +8,9 @@ import { routes } from './app.routes';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes),
-    provideClientHydration(withEventReplay()),
+    provideZonelessChangeDetection(),
+    provideRouter(routes, withViewTransitions({ skipInitialTransition: true })),
+    provideClientHydration(withEventReplay(), withIncrementalHydration()),
     provideAnimationsAsync(),
     provideHttpClient(withFetch()),
   ],

@@ -49,7 +49,10 @@ export class Login {
   });
 
   async onLogin(): Promise<void> {
-    if (this.loginForm.invalid) { this.loginForm.markAllAsTouched(); return; }
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      return;
+    }
     this.loginError.set('');
     this.loading.set(true);
     try {
@@ -64,7 +67,10 @@ export class Login {
   }
 
   async onSignup(): Promise<void> {
-    if (this.signupForm.invalid) { this.signupForm.markAllAsTouched(); return; }
+    if (this.signupForm.invalid) {
+      this.signupForm.markAllAsTouched();
+      return;
+    }
     const { displayName, email, password, confirmPassword } = this.signupForm.value;
     if (password !== confirmPassword) {
       this.signupError.set('Лозинке се не поклапају.');
@@ -86,13 +92,20 @@ export class Login {
     switch (code) {
       case 'auth/invalid-credential':
       case 'auth/wrong-password':
-      case 'auth/user-not-found':   return 'Погрешна е-пошта или лозинка.';
-      case 'auth/email-already-in-use': return 'Та е-пошта се користи.';
-      case 'auth/invalid-email':    return 'Неважећа е-пошта адреса.';
-      case 'auth/weak-password':    return 'Лозинка прекратка (мин. 6 карактера).';
-      case 'auth/too-many-requests': return 'Приступ привремено блокиран.';
-      case 'auth/user-disabled':    return 'Налог деактивиран.';
-      default:                      return 'Грешка. Покушати поново.';
+      case 'auth/user-not-found':
+        return 'Погрешна е-пошта или лозинка.';
+      case 'auth/email-already-in-use':
+        return 'Та е-пошта се користи.';
+      case 'auth/invalid-email':
+        return 'Неважећа е-пошта адреса.';
+      case 'auth/weak-password':
+        return 'Лозинка прекратка (мин. 6 карактера).';
+      case 'auth/too-many-requests':
+        return 'Приступ привремено блокиран.';
+      case 'auth/user-disabled':
+        return 'Налог деактивиран.';
+      default:
+        return 'Грешка. Покушати поново.';
     }
   }
 }

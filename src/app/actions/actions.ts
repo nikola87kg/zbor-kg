@@ -1,4 +1,10 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -18,6 +24,7 @@ import { ConfirmDialog } from '../shared/confirm-dialog/confirm-dialog';
   selector: 'app-actions',
   imports: [
     DatePipe,
+    RouterLink,
     MatCardModule,
     MatButtonModule,
     MatIconModule,
@@ -25,7 +32,6 @@ import { ConfirmDialog } from '../shared/confirm-dialog/confirm-dialog';
     MatFormFieldModule,
     MatInputModule,
     MatTooltipModule,
-    RouterLink,
   ],
   templateUrl: './actions.html',
   styleUrl: './actions.scss',
@@ -42,11 +48,14 @@ export class Actions implements OnInit {
   readonly filteredActions = computed(() => {
     const q = this.searchQuery().toLowerCase().trim();
     if (!q) return this.actionsService.actions();
-    return this.actionsService.actions().filter(a =>
-      a.title.toLowerCase().includes(q) ||
-      (a.description ?? '').toLowerCase().includes(q) ||
-      (a.location ?? '').toLowerCase().includes(q),
-    );
+    return this.actionsService
+      .actions()
+      .filter(
+        (a) =>
+          a.title.toLowerCase().includes(q) ||
+          (a.description ?? '').toLowerCase().includes(q) ||
+          (a.location ?? '').toLowerCase().includes(q),
+      );
   });
 
   async ngOnInit(): Promise<void> {
@@ -77,7 +86,10 @@ export class Actions implements OnInit {
   async deleteAction(action: Action, event: Event): Promise<void> {
     event.stopPropagation();
     const ref = this.dialog.open(ConfirmDialog, {
-      data: { title: 'Обриши акцију', message: `Да ли сте сигурни да желите да обришете "${action.title}"?` },
+      data: {
+        title: 'Обриши акцију',
+        message: `Да ли сте сигурни да желите да обришете "${action.title}"?`,
+      },
     });
     const confirmed = await ref.afterClosed().toPromise();
     if (!confirmed) return;

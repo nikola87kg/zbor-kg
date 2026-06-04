@@ -1,6 +1,13 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  computed,
+  inject,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -22,7 +29,6 @@ interface CalendarDay {
   selector: 'app-calendar',
   imports: [
     DatePipe,
-    RouterLink,
     MatButtonModule,
     MatIconModule,
     MatProgressSpinnerModule,
@@ -42,8 +48,18 @@ export class Calendar implements OnInit {
   readonly viewDate = signal(new Date());
 
   readonly MONTHS = [
-    'Јануар', 'Фебруар', 'Март', 'Април', 'Мај', 'Јун',
-    'Јул', 'Август', 'Септембар', 'Октобар', 'Новембар', 'Децембар',
+    'Јануар',
+    'Фебруар',
+    'Март',
+    'Април',
+    'Мај',
+    'Јун',
+    'Јул',
+    'Август',
+    'Септембар',
+    'Октобар',
+    'Новембар',
+    'Децембар',
   ];
   readonly DAY_NAMES = ['Нед', 'Пон', 'Уто', 'Сре', 'Чет', 'Пет', 'Суб'];
 
@@ -55,8 +71,9 @@ export class Calendar implements OnInit {
   /** Actions in the currently viewed month, sorted oldest first */
   readonly monthActions = computed(() => {
     const d = this.viewDate();
-    return this.actionsService.actions()
-      .filter(a => {
+    return this.actionsService
+      .actions()
+      .filter((a) => {
         const ad = new Date(a.date);
         return ad.getFullYear() === d.getFullYear() && ad.getMonth() === d.getMonth();
       })
@@ -123,8 +140,18 @@ export class Calendar implements OnInit {
     const d = this.viewDate();
     const date = new Date(d.getFullYear(), d.getMonth(), cell.day);
     const months = [
-      'јануар', 'фебруар', 'март', 'април', 'мај', 'јун',
-      'јул', 'август', 'септембар', 'октобар', 'новембар', 'децембар',
+      'јануар',
+      'фебруар',
+      'март',
+      'април',
+      'мај',
+      'јун',
+      'јул',
+      'август',
+      'септембар',
+      'октобар',
+      'новембар',
+      'децембар',
     ];
     const dateLabel = `${cell.day}. ${months[d.getMonth()]} ${d.getFullYear()}.`;
     this.dialog.open(DayDialog, {
@@ -139,6 +166,6 @@ export class Calendar implements OnInit {
   }
 
   tooltipFor(cell: CalendarDay): string {
-    return cell.actions.map(a => a.title).join('\n');
+    return cell.actions.map((a) => a.title).join('\n');
   }
 }

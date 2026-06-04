@@ -5,13 +5,26 @@
   </button>
 
   @if (loading()) {
-    <div class="centered"><mat-spinner /></div>
+    <div class="skeleton-detail">
+      <div class="skeleton skeleton-img"></div>
+      <div class="skeleton-body">
+        <div class="skeleton skeleton-line" style="width:28%"></div>
+        <div class="skeleton skeleton-line skeleton-title" style="width:82%"></div>
+        <div class="skeleton skeleton-line"></div>
+        <div class="skeleton skeleton-line" style="width:88%"></div>
+        <div class="skeleton skeleton-line" style="width:72%"></div>
+        <div class="skeleton skeleton-line" style="width:60%"></div>
+      </div>
+    </div>
   } @else if (!article()) {
     <p class="state-msg">Вест није пронађена.</p>
   } @else {
     <article class="detail-article">
       @if (article()!.imageUrl) {
-        <img class="detail-image" [src]="article()!.imageUrl!" [alt]="article()!.title">
+        <img class="detail-image"
+             [src]="article()!.imageUrl!"
+             [alt]="article()!.title"
+             [style.view-transition-name]="'news-' + article()!.id">
       }
 
       <div class="detail-body">

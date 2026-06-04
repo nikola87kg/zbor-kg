@@ -15,13 +15,26 @@
   </div>
 
   @if (loading()) {
-    <div class="centered"><mat-spinner /></div>
+    <div class="skeleton-detail">
+      <div class="skeleton skeleton-img"></div>
+      <div class="skeleton-body">
+        <div class="skeleton skeleton-line" style="width:22%"></div>
+        <div class="skeleton skeleton-line skeleton-title" style="width:78%"></div>
+        <div class="skeleton skeleton-line"></div>
+        <div class="skeleton skeleton-line" style="width:91%"></div>
+        <div class="skeleton skeleton-line" style="width:65%"></div>
+        <div class="skeleton skeleton-line" style="width:80%"></div>
+      </div>
+    </div>
   } @else if (!affair()) {
     <p class="state-msg">Афера није пронађена.</p>
   } @else {
     <article class="detail-article">
       @if (affair()!.imageUrl) {
-        <img class="detail-image" [src]="affair()!.imageUrl!" [alt]="affair()!.title">
+        <img class="detail-image"
+             [src]="affair()!.imageUrl!"
+             [alt]="affair()!.title"
+             [style.view-transition-name]="'affair-' + affair()!.id">
       }
 
       <div class="detail-body">

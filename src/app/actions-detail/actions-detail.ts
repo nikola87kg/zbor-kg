@@ -13,7 +13,12 @@ import { ConfirmDialog } from '../shared/confirm-dialog/confirm-dialog';
 
 @Component({
   selector: 'app-actions-detail',
-  imports: [DatePipe, MatButtonModule, MatIconModule, MatProgressSpinnerModule],
+  imports: [
+    DatePipe,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+  ],
   templateUrl: './actions-detail.html',
   styleUrl: './actions-detail.scss',
 })
@@ -57,7 +62,10 @@ export class ActionsDetail implements OnInit {
     const action = this.action();
     if (!action) return;
     const ref = this.dialog.open(ConfirmDialog, {
-      data: { title: 'Обриши акцију', message: `Да ли сте сигурни да желите да обришете "${action.title}"?` },
+      data: {
+        title: 'Обриши акцију',
+        message: `Да ли сте сигурни да желите да обришете "${action.title}"?`,
+      },
     });
     const confirmed = await ref.afterClosed().toPromise();
     if (!confirmed) return;

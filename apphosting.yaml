@@ -5,6 +5,6 @@ runConfig:
 
 env:
   - variable: NG_ALLOWED_HOSTS
-    value: "zbor-kg--zbor-kg.europe-west4.hosted.app"
+    value: "zbor-kg--zbor-kg.europe-west4.hosted.app,zbormzfilipkljajic-kg.rs,www.zbormzfilipkljajic-kg.rs"
     availability:
       - RUNTIME

@@ -1,0 +1,26 @@
+{
+  "name": "Збор КГ",
+  "short_name": "Збор КГ",
+  "description": "Грађански надзор Крагујевац – вести, афере и акције.",
+  "theme_color": "#0072c9",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "orientation": "portrait-primary",
+  "lang": "sr",
+  "icons": [
+    {
+      "src": "images/zbor-logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "images/zbor-logo-veliki.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

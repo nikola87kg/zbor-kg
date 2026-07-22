@@ -21,7 +21,7 @@ mutation UpdateReportStatus(
   problemReport_update(id: $id, data: { status: $status })
 }
 
-query ListReports @auth(level: USER) {
+query ListReports @auth(level: PUBLIC) {
   problemReports(orderBy: { createdAt: DESC }) {
     id
     name

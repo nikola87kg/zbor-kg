@@ -65,7 +65,6 @@ export class Report {
     this.saving.set(true);
     this.error.set('');
     try {
-      await this.authService.ensureAuth();
       let imageUrl: string | undefined;
       if (this.selectedFile()) {
         imageUrl = await this.storageService.uploadImage(this.selectedFile()!, 'reports');

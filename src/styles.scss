@@ -1,23 +1,27 @@
 @use '@angular/material' as mat;
 
 html {
-  @include mat.theme((
-    color: (
-      theme-type: light,
-      primary: mat.$azure-palette,
-    ),
-    typography: Roboto,
-    density: 0,
-  ));
+  @include mat.theme(
+    (
+      color: (
+        theme-type: light,
+        primary: mat.$azure-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
 }
 
 html.dark-theme {
-  @include mat.theme((
-    color: (
-      theme-type: dark,
-      primary: mat.$azure-palette,
-    ),
-  ));
+  @include mat.theme(
+    (
+      color: (
+        theme-type: dark,
+        primary: mat.$azure-palette,
+      ),
+    )
+  );
 }
 
 // ─── View Transitions — shared element (image card → detail) ─────────────────
@@ -28,8 +32,12 @@ html.dark-theme {
 
 // ─── Skeleton shimmer ─────────────────────────────────────────────────────────
 @keyframes skeleton-shimmer {
-  from { background-position: -200% 0; }
-  to   { background-position:  200% 0; }
+  from {
+    background-position: -200% 0;
+  }
+  to {
+    background-position: 200% 0;
+  }
 }
 
 .skeleton {
@@ -62,16 +70,41 @@ html.dark-theme {
   background: var(--mat-sys-surface-variant);
   opacity: 0.7;
 
-  .skeleton-img  { height: 200px; border-radius: 0; }
-  .skeleton-body { padding: 16px; display: flex; flex-direction: column; gap: 10px; }
-  .skeleton-line { height: 14px; }
+  .skeleton-img {
+    height: 200px;
+    border-radius: 0;
+  }
+  .skeleton-body {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .skeleton-line {
+    height: 14px;
+  }
 }
 
 .skeleton-detail {
-  .skeleton-img  { width: 100%; height: 300px; border-radius: 0 0 12px 12px; margin-bottom: 24px; }
-  .skeleton-body { display: flex; flex-direction: column; gap: 12px; padding: 0 4px; }
-  .skeleton-line { height: 14px; }
-  .skeleton-title{ height: 28px; margin-bottom: 8px; }
+  .skeleton-img {
+    width: 100%;
+    height: 300px;
+    border-radius: 0 0 12px 12px;
+    margin-bottom: 24px;
+  }
+  .skeleton-body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 0 4px;
+  }
+  .skeleton-line {
+    height: 14px;
+  }
+  .skeleton-title {
+    height: 28px;
+    margin-bottom: 8px;
+  }
 }
 
 *,
@@ -167,5 +200,323 @@ body {
     mat-icon {
       opacity: 0.7;
     }
+  }
+}
+
+// ─── Shared card styles ───────────────────────────────────────────────────────
+
+.entity-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+
+  mat-card-content {
+    flex: 1;
+  }
+}
+
+.card-image {
+  height: 200px;
+  width: 100%;
+  object-fit: cover;
+  cursor: pointer;
+  transition: opacity 0.15s;
+
+  &:hover {
+    opacity: 0.88;
+  }
+}
+
+.card-title {
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.card-preview {
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+
+.card-date {
+  font-size: 12px;
+  color: var(--mat-sys-primary);
+  padding-left: 8px;
+  align-self: center;
+}
+
+.card-location {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: var(--mat-sys-primary-container);
+  color: var(--mat-sys-on-primary-container);
+  border-radius: 12px;
+  padding: 2px 10px 2px 6px;
+  font-size: 12px;
+  font-weight: 500;
+  margin-block: 10px;
+
+  .card-location-icon {
+    font-size: 14px;
+    height: 14px;
+    width: 14px;
+    flex-shrink: 0;
+  }
+}
+
+.actions-spacer {
+  flex: 1;
+}
+
+// ─── Image fallback directive ─────────────────────────────────────────────────
+// Applied by ImgFallbackDirective when imageUrl is absent or fails to load
+.img-fallback {
+  object-fit: contain !important;
+  background-color: var(--mat-sys-surface-variant);
+  padding: 20px;
+}
+
+// ─── Shared form styles ───────────────────────────────────────────────────────
+
+.form-page {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.centered {
+  display: flex;
+  justify-content: center;
+  padding: 64px;
+}
+
+.entity-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 8px;
+
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+
+  @media (max-width: 599px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.upload-btn {
+  width: 100%;
+  height: 80px;
+  border-style: dashed;
+}
+
+.image-preview-wrapper {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.image-preview {
+  width: 100%;
+  max-height: 280px;
+  object-fit: cover;
+  display: block;
+}
+
+.remove-image-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+}
+
+.change-image-btn {
+  position: absolute;
+  top: 8px;
+  right: 48px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+}
+
+.editor-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.editor-label {
+  font-size: 12px;
+  color: var(--mat-sys-on-surface-variant);
+  padding-left: 2px;
+}
+
+.quill-editor {
+  border-radius: 4px;
+  border: 1px solid var(--mat-sys-outline);
+  transition: border-color 0.2s;
+
+  &:focus-within {
+    border-color: var(--mat-sys-primary);
+    border-width: 2px;
+  }
+
+  .ql-toolbar {
+    border: none;
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
+    border-radius: 4px 4px 0 0;
+  }
+
+  .ql-container {
+    border: none;
+    font-family: inherit;
+    font-size: 14px;
+  }
+
+  .ql-editor {
+    min-height: 160px;
+    padding: 12px;
+  }
+}
+
+// Quill placeholder — override hardcoded black color to respect theme
+.ql-editor.ql-blank::before {
+  color: var(--mat-sys-on-surface-variant) !important;
+  font-style: normal;
+}
+
+.form-error {
+  color: var(--mat-sys-error);
+  font-size: 12px;
+  margin: 0;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 4px;
+}
+
+.save-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+// ─── Notification bell dropdown ───────────────────────────────────────────────
+.notif-dropdown {
+  .mat-mdc-menu-content {
+    padding: 0 !important;
+    min-width: 320px;
+    max-width: 360px;
+  }
+}
+
+.notif-dropdown-header {
+  padding: 12px 16px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--mat-sys-on-surface-variant);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+}
+
+.notif-dropdown-loading {
+  display: flex;
+  justify-content: center;
+  padding: 24px;
+}
+
+.notif-dropdown-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 24px 16px 16px;
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 14px;
+
+  mat-icon {
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+    opacity: 0.5;
+  }
+}
+
+.notif-dropdown-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 10px 16px !important;
+  height: auto !important;
+
+  .notif-dropdown-thumb {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    border-radius: 6px;
+    object-fit: cover;
+
+    &.img-fallback {
+      padding: 4px;
+      object-fit: contain;
+    }
+  }
+
+  .notif-dropdown-text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .notif-dropdown-title {
+    font-size: 13px;
+    font-weight: 500;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .notif-dropdown-date {
+    font-size: 11px;
+    color: var(--mat-sys-on-surface-variant);
+  }
+}
+
+.notif-dropdown-actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 8px;
+}
+
+// ─── Detail content ───────────────────────────────────────────────────────────
+.detail-content {
+  overflow-wrap: break-word;
+  word-break: break-word;
+  text-align: justify;
+  margin: 0 0 24px;
+
+  p {
+    max-width: calc(100vw - 32px);
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
 }

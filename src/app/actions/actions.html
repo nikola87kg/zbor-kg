@@ -40,31 +40,27 @@
   } @else {
     <div class="actions-grid">
       @for (action of filteredActions(); track action.id) {
-        <mat-card class="action-card">
-          @if (action.imageUrl) {
-            <img mat-card-image [src]="action.imageUrl" [alt]="action.title"
-                 class="card-image"
-                 [style.view-transition-name]="'action-' + action.id"
-                 (click)="openAction(action.id)">
-          } @else {
-            <div class="image-placeholder"
-                 [style.view-transition-name]="'action-' + action.id"
-                 (click)="openAction(action.id)"></div>
-          }
+        <mat-card class="entity-card">
+          <img mat-card-image [appImgFallback]="action.imageUrl" [alt]="action.title"
+               class="card-image"
+               [style.view-transition-name]="'action-' + action.id"
+               (click)="openAction(action.id)">
           <mat-card-header>
             <mat-card-title class="card-title" (click)="openAction(action.id)">
               {{ action.title }}
             </mat-card-title>
             @if (action.location) {
               <mat-card-subtitle>
-                <mat-icon class="location-icon">place</mat-icon>
-                {{ action.location }}
+                <span class="card-location">
+                  <mat-icon class="card-location-icon">place</mat-icon>
+                  {{ action.location }}
+                </span>
               </mat-card-subtitle>
             }
           </mat-card-header>
           @if (action.description) {
             <mat-card-content>
-              <div class="description-preview">{{ action.description }}</div>
+              <p class="card-preview">{{ action.description | stripHtml }}</p>
             </mat-card-content>
           }
           <mat-card-actions>

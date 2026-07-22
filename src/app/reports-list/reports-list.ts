@@ -8,6 +8,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AuthService } from '../core/auth.service';
 import { ReportsService } from '../core/reports.service';
+import { ImgFallbackDirective } from '../shared/img-fallback.directive';
 import { ProblemReport } from '../models';
 
 export const REPORT_STATUSES = ['На разматрању', 'Покренут поступак', 'Решен проблем', 'Одбачен'] as const;
@@ -22,6 +23,7 @@ export const REPORT_STATUSES = ['На разматрању', 'Покренут �
     MatMenuModule,
     MatProgressSpinnerModule,
     MatTooltipModule,
+    ImgFallbackDirective,
   ],
   templateUrl: './reports-list.html',
   styleUrl: './reports-list.scss',
@@ -58,6 +60,7 @@ export class ReportsList implements OnInit {
     if (report.status === status) return;
     await this.reportsService.updateStatus(report.id, status);
     this.reports.update(list => list.map(r => r.id === report.id ? { ...r, status } : r));
+    this.reportsService.logStatusChange(report.id, status).catch(() => {});
   }
 
   statusClass(report: ProblemReport): string {

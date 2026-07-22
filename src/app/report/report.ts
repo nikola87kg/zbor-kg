@@ -39,7 +39,7 @@ export class Report {
   readonly imagePreview = signal<string | null>(null);
 
   readonly form = this.fb.group({
-    name: ['', Validators.required],
+    name: [''],
     address: ['', Validators.required],
     description: ['', Validators.required],
   });

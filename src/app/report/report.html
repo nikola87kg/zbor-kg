@@ -28,9 +28,7 @@
           <input matInput
             formControlName="name"
             placeholder="Нпр. Јован Јовановић">
-          @if (form.get('name')?.hasError('required') && form.get('name')?.touched) {
-          <mat-error>Ime је обавезно</mat-error>
-          }
+
         </mat-form-field>
 
         <mat-form-field appearance="outline">

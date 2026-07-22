@@ -10,6 +10,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { provideNativeDateAdapter } from '@angular/material/core';
+import { QuillEditorComponent } from 'ngx-quill';
 import { ActionsService } from '../core/actions.service';
 import { StorageService } from '../core/storage.service';
 import { Action } from '../models';
@@ -26,6 +27,7 @@ import { Action } from '../models';
     MatDatepickerModule,
     MatProgressSpinnerModule,
     MatTooltipModule,
+    QuillEditorComponent,
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './actions-form.html',
@@ -44,6 +46,15 @@ export class ActionsForm implements OnInit {
   readonly editingAction = signal<Action | null>(null);
   readonly selectedFile = signal<File | null>(null);
   readonly imagePreview = signal<string | null>(null);
+
+  readonly quillModules = {
+    toolbar: [
+      ['bold', 'italic', 'underline'],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      ['link'],
+      ['clean'],
+    ],
+  };
 
   readonly form = this.fb.group({
     title: ['', Validators.required],

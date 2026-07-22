@@ -29,12 +29,9 @@
     <p class="state-msg">Акција није пронађена.</p>
   } @else {
     <article class="detail-article">
-      @if (action()!.imageUrl) {
-        <img class="detail-image"
-             [src]="action()!.imageUrl!"
-             [alt]="action()!.title"
-             [style.view-transition-name]="'action-' + action()!.id">
-      }
+      <img [appImgFallback]="action()!.imageUrl" class="detail-image"
+           [alt]="action()!.title"
+           [style.view-transition-name]="'action-' + action()!.id">
 
       <div class="detail-body">
         <div class="detail-meta">
@@ -49,8 +46,8 @@
 
         <h1 class="detail-title">{{ action()!.title }}</h1>
 
-        @if (action()!.description) {
-          <div class="detail-description">{{ action()!.description }}</div>
+        @if (content()) {
+          <div class="detail-content" [innerHTML]="content()"></div>
         }
       </div>
     </article>

@@ -8,7 +8,7 @@
       </mat-card-header>
 
       <mat-card-content>
-        <form [formGroup]="form" (ngSubmit)="submit()" class="action-form">
+        <form [formGroup]="form" (ngSubmit)="submit()" class="entity-form">
 
           <div class="form-row">
             <mat-form-field appearance="outline">
@@ -36,11 +36,13 @@
             <input matInput formControlName="location" placeholder="Град, место...">
           </mat-form-field>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Опис</mat-label>
-            <textarea matInput formControlName="description" rows="5"
-                      placeholder="Унесите опис акције..."></textarea>
-          </mat-form-field>
+          <div class="editor-wrapper">
+            <label class="editor-label">Опис</label>
+            <quill-editor formControlName="description"
+                          [modules]="quillModules"
+                          placeholder="Унесите опис акције..."
+                          class="quill-editor" />
+          </div>
 
           <input #fileInput type="file" accept="image/*" hidden
                  (change)="onFileSelected($any($event.target).files[0])">

@@ -42,6 +42,7 @@ export class Sidebar implements OnDestroy {
     { label: 'Афере', route: '/afere', icon: 'gavel' },
     { label: 'Пријава проблема', route: '/prijava-problema', icon: 'report_problem' },
     { label: 'Проблеми', route: '/prijavljeni-problemi', icon: 'list_alt' },
+    { label: 'Обавештења', route: '/obavestenja', icon: 'notifications' },
   ];
 
   constructor() {

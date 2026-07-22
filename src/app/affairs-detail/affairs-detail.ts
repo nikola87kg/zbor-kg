@@ -1,10 +1,11 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AffairsService } from '../core/affairs.service';
+import { ImgFallbackDirective } from '../shared/img-fallback.directive';
 import { AuthService } from '../core/auth.service';
 import { SeoService } from '../core/seo.service';
 import { Affair } from '../models';
@@ -18,6 +19,7 @@ import { ConfirmDialog } from '../shared/confirm-dialog/confirm-dialog';
     MatButtonModule,
     MatIconModule,
     MatProgressSpinnerModule,
+    ImgFallbackDirective,
   ],
   templateUrl: './affairs-detail.html',
   styleUrl: './affairs-detail.scss',
@@ -32,6 +34,9 @@ export class AffairsDetail implements OnInit {
 
   readonly loading = signal(true);
   readonly affair = signal<Affair | null>(null);
+  readonly content = computed(() =>
+    this.affair()?.content?.replace(/&nbsp;/g, ' ').replace(/\u00A0/g, ' ') ?? null,
+  );
 
   async ngOnInit(): Promise<void> {
     const id = this.route.snapshot.paramMap.get('id')!;

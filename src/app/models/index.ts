@@ -89,3 +89,15 @@ export interface CreateCalendarEntryInput {
   location?: string;
   isAllDay?: boolean;
 }
+
+export interface StatusLog {
+  id: string;
+  status: string;
+  changedAt: Date;
+  report: {
+    id: string;
+    address: string;
+    name: string;
+    imageUrl?: string | null;
+  };
+}

@@ -30,12 +30,9 @@
     <p class="state-msg">Афера није пронађена.</p>
   } @else {
     <article class="detail-article">
-      @if (affair()!.imageUrl) {
-        <img class="detail-image"
-             [src]="affair()!.imageUrl!"
-             [alt]="affair()!.title"
-             [style.view-transition-name]="'affair-' + affair()!.id">
-      }
+      <img [appImgFallback]="affair()!.imageUrl" class="detail-image"
+           [alt]="affair()!.title"
+           [style.view-transition-name]="'affair-' + affair()!.id">
 
       <div class="detail-body">
         <div class="detail-meta">
@@ -44,8 +41,8 @@
 
         <h1 class="detail-title">{{ affair()!.title }}</h1>
 
-        @if (affair()!.content) {
-          <div class="detail-content" [innerHTML]="affair()!.content"></div>
+        @if (content()) {
+          <div class="detail-content" [innerHTML]="content()"></div>
         }
       </div>
     </article>

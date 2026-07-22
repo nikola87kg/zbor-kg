@@ -19,6 +19,8 @@ import { ActionsService } from '../core/actions.service';
 import { AuthService } from '../core/auth.service';
 import { Action } from '../models';
 import { ConfirmDialog } from '../shared/confirm-dialog/confirm-dialog';
+import { ImgFallbackDirective } from '../shared/img-fallback.directive';
+import { StripHtmlPipe } from '../core/strip-html.pipe';
 
 @Component({
   selector: 'app-actions',
@@ -32,6 +34,8 @@ import { ConfirmDialog } from '../shared/confirm-dialog/confirm-dialog';
     MatFormFieldModule,
     MatInputModule,
     MatTooltipModule,
+    ImgFallbackDirective,
+    StripHtmlPipe,
   ],
   templateUrl: './actions.html',
   styleUrl: './actions.scss',

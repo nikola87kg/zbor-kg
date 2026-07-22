@@ -65,3 +65,9 @@ type UserNewsPreference @table(key: ["authUid", "newsArticle"]) {
   isRead: Boolean
   isFavorite: Boolean
 }
+
+type ProblemStatusLog @table {
+  report: ProblemReport!
+  status: String!
+  changedAt: Timestamp!
+}

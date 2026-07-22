@@ -72,11 +72,10 @@
   @media (max-width: 599px) { font-size: 1.35rem; }
 }
 
-.detail-description {
+.detail-content {
   font-size: 1rem;
   line-height: 1.7;
   color: var(--mat-sys-on-surface-variant);
-  white-space: pre-wrap;
 }
 
 .state-msg {

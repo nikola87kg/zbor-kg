@@ -40,17 +40,11 @@
   } @else {
     <div class="affairs-grid">
       @for (affair of filteredAffairs(); track affair.id) {
-        <mat-card class="affair-card">
-          @if (affair.imageUrl) {
-            <img mat-card-image [src]="affair.imageUrl" [alt]="affair.title"
-                 class="card-image"
-                 [style.view-transition-name]="'affair-' + affair.id"
-                 (click)="openAffair(affair.id)">
-          } @else {
-            <div class="image-placeholder"
-                 [style.view-transition-name]="'affair-' + affair.id"
-                 (click)="openAffair(affair.id)"></div>
-          }
+        <mat-card class="entity-card">
+          <img mat-card-image [appImgFallback]="affair.imageUrl" [alt]="affair.title"
+               class="card-image"
+               [style.view-transition-name]="'affair-' + affair.id"
+               (click)="openAffair(affair.id)">
           <mat-card-header>
             <mat-card-title class="card-title" (click)="openAffair(affair.id)">
               {{ affair.title }}
@@ -59,7 +53,7 @@
           </mat-card-header>
           @if (affair.content) {
             <mat-card-content>
-              <div class="content-preview">{{ affair.content | stripHtml }}</div>
+              <p class="card-preview">{{ affair.content | stripHtml }}</p>
             </mat-card-content>
           }
           <mat-card-actions>

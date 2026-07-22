@@ -1,0 +1,43 @@
+<div class="notif-page">
+  <h2 class="notif-page-title">
+    <mat-icon>notifications</mat-icon>
+    Обавештења
+  </h2>
+
+  @if (loading()) {
+    <div class="notif-skeleton">
+      @for (i of [1,2,3,4,5,6,7,8]; track i) {
+        <div class="notif-skeleton-item">
+          <div class="skeleton notif-skeleton-thumb"></div>
+          <div class="notif-skeleton-body">
+            <div class="skeleton skeleton-line" style="width:30%"></div>
+            <div class="skeleton skeleton-line" style="width:65%; margin-top:6px"></div>
+            <div class="skeleton skeleton-line" style="width:40%; margin-top:4px"></div>
+          </div>
+        </div>
+      }
+    </div>
+  } @else if (error()) {
+    <p class="state-msg">{{ error() }}</p>
+  } @else if (items().length === 0) {
+    <p class="state-msg">Нема обавештења.</p>
+  } @else {
+    <div class="notif-list">
+      @for (item of items(); track item.id) {
+        <a class="notif-item" [routerLink]="item.routerLink">
+          <img [appImgFallback]="item.imageUrl" alt="" class="notif-thumb">
+          <div class="notif-body">
+            <div class="notif-meta">
+              <span [class]="'notif-badge notif-badge--' + item.type">{{ typeLabels[item.type] }}</span>
+              <span class="notif-date">{{ item.date | date:'dd.MM.yyyy' }}</span>
+            </div>
+            <p class="notif-title">{{ item.title }}</p>
+            @if (item.subtitle) {
+              <p class="notif-subtitle">{{ item.subtitle }}</p>
+            }
+          </div>
+        </a>
+      }
+    </div>
+  }
+</div>

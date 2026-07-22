@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { executeQuery, executeMutation, mutationRef, queryRef } from 'firebase/data-connect';
 import { FIREBASE_DATA_CONNECT } from '../firebase';
-import { ProblemReport } from '../models';
+import { ProblemReport, StatusLog } from '../models';
 
 export interface SubmitReportInput {
   name: string;
@@ -30,5 +30,18 @@ export class ReportsService {
     const ref = queryRef<{ problemReports: ProblemReport[] }>(this.dc, 'ListReports');
     const result = await executeQuery(ref);
     return result.data.problemReports ?? [];
+  }
+
+  async logStatusChange(reportId: string, status: string): Promise<void> {
+    const ref = mutationRef<void, { reportId: string; status: string }>(
+      this.dc, 'LogStatusChange', { reportId, status },
+    );
+    await executeMutation(ref);
+  }
+
+  async listStatusLogs(): Promise<StatusLog[]> {
+    const ref = queryRef<{ problemStatusLogs: StatusLog[] }>(this.dc, 'ListStatusLogs');
+    const result = await executeQuery(ref);
+    return result.data.problemStatusLogs ?? [];
   }
 }

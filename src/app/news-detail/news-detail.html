@@ -20,12 +20,9 @@
     <p class="state-msg">Вест није пронађена.</p>
   } @else {
     <article class="detail-article">
-      @if (article()!.imageUrl) {
-        <img class="detail-image"
-             [src]="article()!.imageUrl!"
-             [alt]="article()!.title"
-             [style.view-transition-name]="'news-' + article()!.id">
-      }
+      <img [appImgFallback]="article()!.imageUrl" class="detail-image"
+           [alt]="article()!.title"
+           [style.view-transition-name]="'news-' + article()!.id">
 
       <div class="detail-body">
         <div class="detail-meta">
@@ -34,8 +31,8 @@
 
         <h1 class="detail-title">{{ article()!.title }}</h1>
 
-        @if (article()!.summary) {
-          <div class="detail-summary" [innerHTML]="article()!.summary"></div>
+        @if (content()) {
+          <div class="detail-content" [innerHTML]="content()"></div>
         }
 
       </div>

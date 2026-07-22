@@ -7,7 +7,9 @@
   margin: 0 auto;
   padding: 16px 24px 48px;
 
-  @media (max-width: 599px) { padding: 12px 12px 32px; }
+  @media (max-width: 599px) {
+    padding: 12px 12px 32px;
+  }
 }
 
 .back-btn {
@@ -57,14 +59,15 @@
   line-height: 1.3;
   margin: 0 0 16px;
 
-  @media (max-width: 599px) { font-size: 1.35rem; }
+  @media (max-width: 599px) {
+    font-size: 1.35rem;
+  }
 }
 
-.detail-summary {
+.detail-content {
   font-size: 1rem;
   line-height: 1.7;
   color: var(--mat-sys-on-surface-variant);
-  margin: 0 0 24px;
 }
 
 .source-link {

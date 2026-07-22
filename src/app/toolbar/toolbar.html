@@ -8,6 +8,57 @@
 
   <span class="toolbar-spacer"></span>
 
+  <!-- Notification bell -->
+  <button mat-icon-button
+    [matMenuTriggerFor]="notifMenu"
+    aria-label="Обавештења"
+    class="notif-bell-btn"
+    [matBadge]="newCount()"
+    [matBadgeHidden]="newCount() === 0"
+    matBadgeColor="warn"
+    matBadgeSize="small">
+    <mat-icon>notifications</mat-icon>
+  </button>
+
+  <mat-menu #notifMenu="matMenu"
+    class="notif-dropdown">
+    <div class="notif-dropdown-header"
+      (click)="$event.stopPropagation()">
+      <span>Обавештења</span>
+    </div>
+
+    @if (notifLoading()) {
+      <div class="notif-dropdown-loading" (click)="$event.stopPropagation()">
+        <mat-spinner diameter="32" />
+      </div>
+    } @else if (recentItems().length === 0) {
+      <div class="notif-dropdown-empty" (click)="$event.stopPropagation()">
+        <mat-icon>notifications_off</mat-icon>
+        <span>Нема нових обавештења</span>
+      </div>
+      <mat-divider />
+      <button mat-menu-item (click)="goToNotifs()">
+        <mat-icon>history</mat-icon>
+        <span>Виде претходна</span>
+      </button>
+    } @else {
+      @for (item of recentItems(); track item.id) {
+        <a mat-menu-item class="notif-dropdown-item" [routerLink]="item.routerLink">
+          <img [appImgFallback]="item.imageUrl" alt="" class="notif-dropdown-thumb">
+          <div class="notif-dropdown-text">
+            <span class="notif-dropdown-title">{{ item.title }}</span>
+            <span class="notif-dropdown-date">{{ item.date | date:'dd.MM.yyyy' }}</span>
+          </div>
+        </a>
+      }
+      <mat-divider />
+      <div class="notif-dropdown-actions" (click)="$event.stopPropagation()">
+        <button mat-button color="primary" (click)="goToNotifs()">Више</button>
+        <button mat-button (click)="clearNotifs()">Очисти</button>
+      </div>
+    }
+  </mat-menu>
+
   @if (auth.isLoggedIn()) {
   <button mat-button
     [matMenuTriggerFor]="userMenu"

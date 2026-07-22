@@ -40,17 +40,11 @@
   } @else {
     <div class="articles-grid">
       @for (article of filteredArticles(); track article.id) {
-        <mat-card class="article-card">
-          @if (article.imageUrl) {
-            <img mat-card-image [src]="article.imageUrl" [alt]="article.title"
-                 class="card-image"
-                 [style.view-transition-name]="'news-' + article.id"
-                 (click)="openArticle(article.id)">
-          } @else {
-            <div class="image-placeholder"
-                 [style.view-transition-name]="'news-' + article.id"
-                 (click)="openArticle(article.id)"></div>
-          }
+        <mat-card class="entity-card">
+          <img mat-card-image [appImgFallback]="article.imageUrl" [alt]="article.title"
+               class="card-image"
+               [style.view-transition-name]="'news-' + article.id"
+               (click)="openArticle(article.id)">
           <mat-card-header>
             <mat-card-title class="card-title" (click)="openArticle(article.id)">
               {{ article.title }}
@@ -59,7 +53,7 @@
           </mat-card-header>
           @if (article.summary) {
             <mat-card-content>
-              <div class="summary">{{ article.summary | stripHtml }}</div>
+              <p class="card-preview">{{ article.summary | stripHtml }}</p>
             </mat-card-content>
           }
           <mat-card-actions>

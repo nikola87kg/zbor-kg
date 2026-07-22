@@ -32,3 +32,20 @@ query ListReports @auth(level: PUBLIC) {
     createdAt
   }
 }
+
+mutation LogStatusChange($reportId: UUID!, $status: String!) @auth(level: USER) {
+  problemStatusLog_insert(data: {
+    reportId: $reportId
+    status: $status
+    changedAt_expr: "request.time"
+  })
+}
+
+query ListStatusLogs @auth(level: PUBLIC) {
+  problemStatusLogs(orderBy: { changedAt: DESC }) {
+    id
+    status
+    changedAt
+    report { id address name imageUrl }
+  }
+}

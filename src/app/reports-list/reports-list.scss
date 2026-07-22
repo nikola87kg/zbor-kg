@@ -2,9 +2,7 @@
   display: block;
   padding: 24px;
 
-  @media (max-width: 599px) {
-    padding: 12px;
-  }
+  @media (max-width: 599px) { padding: 12px; }
 }
 
 .page-title {
@@ -34,44 +32,17 @@
   }
 }
 
-.report-card {
-  display: flex;
-  flex-direction: column;
-}
-
-.card-image {
+.report-image-wrapper {
+  position: relative;
+  overflow: hidden;
   height: 200px;
-  object-fit: cover;
+
+  .card-image {
+    height: 100%;
+    cursor: default;
+  }
 }
 
-.card-address {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 15px;
-}
-
-.address-icon {
-  font-size: 16px;
-  height: 16px;
-  width: 16px;
-  color: var(--mat-sys-primary);
-}
-
-.description {
-  margin: 0;
-  white-space: pre-wrap;
-  line-height: 1.5;
-}
-
-.card-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 12px 8px 16px;
-  border-top: 1px solid var(--mat-sys-outline-variant);
-  min-height: 40px;
-}
 
 .status-chip {
   display: inline-flex;
@@ -107,12 +78,6 @@
     background: var(--mat-sys-error-container);
     color: var(--mat-sys-on-error-container);
   }
-}
-
-.status-menu-btn {
-  width: 32px;
-  height: 32px;
-  line-height: 32px;
 }
 
 .state-msg {

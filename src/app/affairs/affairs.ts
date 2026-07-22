@@ -19,6 +19,7 @@ import { AffairsService } from '../core/affairs.service';
 import { AuthService } from '../core/auth.service';
 import { Affair } from '../models';
 import { ConfirmDialog } from '../shared/confirm-dialog/confirm-dialog';
+import { ImgFallbackDirective } from '../shared/img-fallback.directive';
 import { StripHtmlPipe } from '../core/strip-html.pipe';
 
 @Component({
@@ -34,6 +35,7 @@ import { StripHtmlPipe } from '../core/strip-html.pipe';
     MatInputModule,
     MatTooltipModule,
     StripHtmlPipe,
+    ImgFallbackDirective,
   ],
   templateUrl: './affairs.html',
   styleUrl: './affairs.scss',

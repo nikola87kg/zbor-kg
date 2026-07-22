@@ -10,6 +10,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { AuthService } from '../core/auth.service';
 import { ReportsService } from '../core/reports.service';
 import { StorageService } from '../core/storage.service';
+import { NotificationsService } from '../core/notifications.service';
 
 @Component({
   selector: 'app-report',
@@ -30,6 +31,7 @@ export class Report {
   private readonly authService = inject(AuthService);
   private readonly reportsService = inject(ReportsService);
   private readonly storageService = inject(StorageService);
+  private readonly notifSvc = inject(NotificationsService);
   private readonly fb = inject(FormBuilder);
 
   readonly saving = signal(false);
@@ -77,6 +79,7 @@ export class Report {
         imageUrl,
       });
       this.submitted.set(true);
+      this.notifSvc.reload().catch(() => {});
     } catch (e) {
       console.error('Report submit error:', e);
       this.error.set('Грешка при слању пријаве. Покушајте поново.');

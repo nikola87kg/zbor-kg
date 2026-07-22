@@ -70,8 +70,13 @@
   }
 
   &.status-resolved {
-    background: var(--mat-sys-primary-container);
-    color: var(--mat-sys-on-primary-container);
+    background: #d4edda;
+    color: #1a5c2a;
+
+    :host-context(.dark-theme) & {
+      background: #1a3d22;
+      color: #7ecf93;
+    }
   }
 
   &.status-rejected {

@@ -7,6 +7,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AffairsService } from '../core/affairs.service';
 import { ImgFallbackDirective } from '../shared/img-fallback.directive';
 import { AuthService } from '../core/auth.service';
+import { NotificationsService } from '../core/notifications.service';
 import { SeoService } from '../core/seo.service';
 import { Affair } from '../models';
 import { MatDialog } from '@angular/material/dialog';
@@ -30,6 +31,7 @@ export class AffairsDetail implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly dialog = inject(MatDialog);
+  private readonly notifSvc = inject(NotificationsService);
   readonly auth = inject(AuthService);
 
   readonly loading = signal(true);
@@ -76,6 +78,7 @@ export class AffairsDetail implements OnInit {
     if (!confirmed) return;
     try {
       await this.affairsService.deleteAffair(affair.id);
+      this.notifSvc.reload().catch(() => {});
       this.router.navigate(['/afere']);
     } catch (e) {
       console.error('Delete affair error:', e);

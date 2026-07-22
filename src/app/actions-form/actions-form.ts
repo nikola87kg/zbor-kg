@@ -13,6 +13,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { QuillEditorComponent } from 'ngx-quill';
 import { ActionsService } from '../core/actions.service';
 import { StorageService } from '../core/storage.service';
+import { NotificationsService } from '../core/notifications.service';
 import { Action } from '../models';
 
 @Component({
@@ -36,6 +37,7 @@ import { Action } from '../models';
 export class ActionsForm implements OnInit {
   private readonly actionsService = inject(ActionsService);
   private readonly storageService = inject(StorageService);
+  private readonly notifSvc = inject(NotificationsService);
   private readonly fb = inject(FormBuilder);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
@@ -124,6 +126,7 @@ export class ActionsForm implements OnInit {
       } else {
         await this.actionsService.createAction(input);
       }
+      this.notifSvc.reload().catch(() => {});
       this.router.navigate(['/akcije']);
     } catch (e) {
       console.error('ActionsForm submit error:', e);

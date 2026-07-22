@@ -13,6 +13,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { QuillEditorComponent } from 'ngx-quill';
 import { AffairsService } from '../core/affairs.service';
 import { StorageService } from '../core/storage.service';
+import { NotificationsService } from '../core/notifications.service';
 import { Affair } from '../models';
 
 @Component({
@@ -36,6 +37,7 @@ import { Affair } from '../models';
 export class AffairsForm implements OnInit {
   private readonly affairsService = inject(AffairsService);
   private readonly storageService = inject(StorageService);
+  private readonly notifSvc = inject(NotificationsService);
   private readonly fb = inject(FormBuilder);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
@@ -121,6 +123,7 @@ export class AffairsForm implements OnInit {
       } else {
         await this.affairsService.createAffair(input);
       }
+      this.notifSvc.reload().catch(() => {});
       this.router.navigate(['/afere']);
     } catch (e) {
       console.error('AffairsForm submit error:', e);

@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActionsService } from '../core/actions.service';
 import { ImgFallbackDirective } from '../shared/img-fallback.directive';
 import { AuthService } from '../core/auth.service';
+import { NotificationsService } from '../core/notifications.service';
 import { SeoService } from '../core/seo.service';
 import { Action } from '../models';
 import { ConfirmDialog } from '../shared/confirm-dialog/confirm-dialog';
@@ -30,6 +31,7 @@ export class ActionsDetail implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly dialog = inject(MatDialog);
+  private readonly notifSvc = inject(NotificationsService);
   readonly auth = inject(AuthService);
 
   readonly loading = signal(true);
@@ -76,6 +78,7 @@ export class ActionsDetail implements OnInit {
     if (!confirmed) return;
     try {
       await this.actionsService.deleteAction(action.id);
+      this.notifSvc.reload().catch(() => {});
       this.router.navigate(['/akcije']);
     } catch (e) {
       console.error('Delete action error:', e);

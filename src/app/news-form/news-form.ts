@@ -12,6 +12,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { QuillEditorComponent } from 'ngx-quill';
 import { NewsService } from '../core/news.service';
 import { StorageService } from '../core/storage.service';
+import { NotificationsService } from '../core/notifications.service';
 import { NewsArticle } from '../models';
 
 @Component({
@@ -34,6 +35,7 @@ import { NewsArticle } from '../models';
 export class NewsForm implements OnInit {
   private readonly newsService = inject(NewsService);
   private readonly storageService = inject(StorageService);
+  private readonly notifSvc = inject(NotificationsService);
   private readonly fb = inject(FormBuilder);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
@@ -122,6 +124,7 @@ export class NewsForm implements OnInit {
       } else {
         await this.newsService.createArticle(input);
       }
+      this.notifSvc.reload().catch(() => {});
       this.router.navigate(['/vesti']);
     } catch (e) {
       console.error('NewsForm submit error:', e);

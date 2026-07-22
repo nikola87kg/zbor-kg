@@ -39,7 +39,7 @@
         <mat-card-subtitle>
           <span class="card-location">
             <mat-icon class="card-location-icon">location_on</mat-icon>
-            {{ report.address }}
+            <span>{{ report.address }}</span>
           </span>
         </mat-card-subtitle>
       </mat-card-header>
@@ -57,7 +57,7 @@
         <button mat-icon-button
           [matMenuTriggerFor]="statusMenu"
           matTooltip="Промени статус">
-          <mat-icon>edit</mat-icon>
+          <mat-icon>rule</mat-icon>
         </button>
         <mat-menu #statusMenu="matMenu">
           @for (s of statuses; track s) {

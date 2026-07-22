@@ -8,6 +8,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AuthService } from '../core/auth.service';
 import { ReportsService } from '../core/reports.service';
+import { NotificationsService } from '../core/notifications.service';
 import { ImgFallbackDirective } from '../shared/img-fallback.directive';
 import { ProblemReport } from '../models';
 
@@ -31,6 +32,7 @@ export const REPORT_STATUSES = ['На разматрању', 'Покренут �
 export class ReportsList implements OnInit {
   private readonly reportsService = inject(ReportsService);
   private readonly authService = inject(AuthService);
+  private readonly notifSvc = inject(NotificationsService);
 
   readonly loading = signal(true);
   readonly error = signal('');
@@ -61,6 +63,7 @@ export class ReportsList implements OnInit {
     await this.reportsService.updateStatus(report.id, status);
     this.reports.update(list => list.map(r => r.id === report.id ? { ...r, status } : r));
     this.reportsService.logStatusChange(report.id, status).catch(() => {});
+    this.notifSvc.reload().catch(() => {});
   }
 
   statusClass(report: ProblemReport): string {

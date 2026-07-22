@@ -1,8 +1,10 @@
-type User @table {
+type User @table(key: "authUid") {
+  authUid: String!
   displayName: String!
   createdAt: Timestamp!
   email: String
   photoUrl: String
+  role: String
 }
 
 type NewsArticle @table {
@@ -54,11 +56,6 @@ type ProblemReport @table {
   imageUrl: String
   status: String
   createdAt: Timestamp!
-}
-
-type UserRole @table(key: "authUid") {
-  authUid: String!
-  role: String!
 }
 
 type UserNewsPreference @table(key: ["authUid", "newsArticle"]) {

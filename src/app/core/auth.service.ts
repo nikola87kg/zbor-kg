@@ -10,10 +10,10 @@ import {
   signOut,
   updateProfile,
 } from 'firebase/auth';
-import { executeQuery, queryRef } from 'firebase/data-connect';
+import { executeMutation, executeQuery, mutationRef, queryRef } from 'firebase/data-connect';
 import { FIREBASE_AUTH, FIREBASE_DATA_CONNECT } from '../firebase';
 
-interface GetMyRoleData { userRole: { role: string } | null }
+interface GetMyRoleData { user: { role: string | null } | null }
 
 export interface User {
   uid: string;
@@ -69,20 +69,33 @@ export class AuthService {
     try {
       const ref = queryRef<GetMyRoleData, { uid: string }>(this.dc, 'GetMyRole', { uid });
       const { data } = await executeQuery(ref);
-      this._role.set(data.userRole?.role ?? null);
+      this._role.set(data.user?.role ?? null);
     } catch {
       this._role.set(null);
     }
   }
 
   async login(email: string, password: string): Promise<void> {
-    await signInWithEmailAndPassword(this.auth, email, password);
+    const { user } = await signInWithEmailAndPassword(this.auth, email, password);
+    await this.createUserProfile(user.uid, user.displayName ?? '', user.email ?? undefined);
   }
 
   async register(displayName: string, email: string, password: string): Promise<void> {
     const { user } = await createUserWithEmailAndPassword(this.auth, email, password);
     await updateProfile(user, { displayName });
     this._user.set(this.toUser(user));
+    await this.createUserProfile(user.uid, displayName, email);
+  }
+
+  private async createUserProfile(authUid: string, displayName: string, email?: string): Promise<void> {
+    try {
+      const ref = mutationRef<void, { authUid: string; displayName: string; email?: string }>(
+        this.dc, 'CreateUserProfile', { authUid, displayName, email },
+      );
+      await executeMutation(ref);
+    } catch (e) {
+      console.error('CreateUserProfile error:', e);
+    }
   }
 
   /** Ensures a Firebase auth token exists. Signs in anonymously if no user is logged in.

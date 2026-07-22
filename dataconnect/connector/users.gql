@@ -1,5 +1,18 @@
 query GetMyRole($uid: String!) @auth(level: USER) {
-  userRole(key: { authUid: $uid }) {
+  user(key: { authUid: $uid }) {
     role
   }
+}
+
+mutation CreateUserProfile(
+  $authUid: String!
+  $displayName: String!
+  $email: String
+) @auth(level: USER) {
+  user_upsert(data: {
+    authUid: $authUid
+    displayName: $displayName
+    email: $email
+    createdAt_expr: "request.time"
+  })
 }

@@ -41,7 +41,7 @@ export interface DayDialogData {
 
     <mat-dialog-actions align="end">
       <button mat-button mat-dialog-close>Затвори</button>
-      @if (auth.isLoggedIn()) {
+      @if (auth.isAdmin()) {
         <button mat-flat-button (click)="createAction()">
           <mat-icon>add</mat-icon>
           Додај акцију

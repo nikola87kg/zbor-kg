@@ -2,7 +2,9 @@
   display: block;
   padding: 24px;
 
-  @media (max-width: 599px) { padding: 12px; }
+  @media (max-width: 599px) {
+    padding: 12px;
+  }
 }
 
 .notif-page-title {
@@ -13,7 +15,11 @@
   font-size: 22px;
   font-weight: 500;
 
-  mat-icon { font-size: 26px; height: 26px; width: 26px; }
+  mat-icon {
+    font-size: 26px;
+    height: 26px;
+    width: 26px;
+  }
 }
 
 .notif-list {
@@ -35,8 +41,12 @@
   transition: background 0.15s;
   cursor: pointer;
 
-  &:not(:last-child) { border-bottom: 1px solid var(--mat-sys-outline-variant); }
-  &:hover { background: var(--mat-sys-surface-variant); }
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
+  }
+  &:hover {
+    background: var(--mat-sys-surface-variant);
+  }
 }
 
 .notif-thumb {
@@ -46,7 +56,9 @@
   border-radius: 8px;
   object-fit: cover;
 
-  &.img-fallback { padding: 6px; }
+  &.img-fallback {
+    padding: 6px;
+  }
 }
 
 .notif-body {
@@ -82,12 +94,7 @@
   letter-spacing: 0.4px;
   white-space: nowrap;
   align-self: flex-start;
-
-  &--news    { background: var(--mat-sys-primary-container);   color: var(--mat-sys-on-primary-container); }
-  &--affair  { background: var(--mat-sys-secondary-container); color: var(--mat-sys-on-secondary-container); }
-  &--action  { background: var(--mat-sys-tertiary-container);  color: var(--mat-sys-on-tertiary-container); }
-  &--report  { background: var(--mat-sys-error-container);     color: var(--mat-sys-on-error-container); }
-  &--status  { background: var(--mat-sys-surface-variant);     color: var(--mat-sys-on-surface-variant); }
+  color: var(--mat-sys-secondary);
 }
 
 .notif-date {
@@ -102,6 +109,16 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.notif-meta-line {
+  margin: 0;
+  font-size: 12px;
+}
+
+.notif-type-label {
+  color: var(--mat-sys-secondary);
+  text-transform: uppercase;
 }
 
 .notif-skeleton {

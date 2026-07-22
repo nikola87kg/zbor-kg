@@ -34,9 +34,9 @@
     </button>
     } @else {
     @for (item of recentItems(); track item.id) {
-    <a mat-menu-item
+    <button mat-menu-item
       class="notif-dropdown-item"
-      [routerLink]="item.routerLink">
+      (click)="router.navigate(item.routerLink)">
       <img [appImgFallback]="item.imageUrl"
         alt=""
         class="notif-dropdown-thumb">
@@ -44,14 +44,14 @@
         <span class="notif-dropdown-title">{{ item.title }}</span>
         <span [class]="'notif-badge notif-badge--' + item.type">{{ typeLabels[item.type] }}</span>
       </div>
-    </a>
+    </button>
     }
     <mat-divider />
     <div class="notif-dropdown-actions"
       (click)="$event.stopPropagation()">
       <button mat-button
         color="primary"
-        (click)="goToNotifs()">Више</button>
+        (click)="notifTrigger.closeMenu(); goToNotifs()">Више</button>
       <button mat-button
         (click)="clearNotifs()">Очисти</button>
     </div>
@@ -126,6 +126,7 @@
 
   <!-- Notification bell — крајње десно -->
   <button mat-icon-button
+    #notifTrigger="matMenuTrigger"
     [matMenuTriggerFor]="notifMenu"
     (menuOpened)="onBellOpened()"
     aria-label="Обавештења"

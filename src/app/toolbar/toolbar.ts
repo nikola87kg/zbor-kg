@@ -37,7 +37,7 @@ export class Toolbar implements OnInit, OnDestroy {
   readonly auth = inject(AuthService);
   readonly theme = inject(ThemeService);
   private readonly notifSvc = inject(NotificationsService);
-  private readonly router = inject(Router);
+  readonly router = inject(Router);
   private readonly platformId = inject(PLATFORM_ID);
 
   readonly menuToggle = output();
@@ -59,11 +59,11 @@ export class Toolbar implements OnInit, OnDestroy {
   readonly newCount = computed(() => this.newItems().length);
 
   readonly typeLabels: Record<NotifType, string> = {
-    news: 'Вест',
-    affair: 'Афера',
-    action: 'Акција',
-    report: 'Пријава',
-    status: 'Статус',
+    news: 'нова вест',
+    affair: 'нова афера',
+    action: 'нова акција',
+    report: 'пријава проблема',
+    status: 'промена статуса',
   };
 
   private pollInterval: ReturnType<typeof setInterval> | null = null;
@@ -71,7 +71,7 @@ export class Toolbar implements OnInit, OnDestroy {
   async ngOnInit(): Promise<void> {
     await this.notifSvc.load();
     if (isPlatformBrowser(this.platformId)) {
-      this.pollInterval = setInterval(() => this.notifSvc.reload().catch(() => {}), 60_000);
+      this.pollInterval = setInterval(() => this.notifSvc.reload().catch(() => { }), 60_000);
     }
   }
 
@@ -90,7 +90,7 @@ export class Toolbar implements OnInit, OnDestroy {
   }
 
   onBellOpened(): void {
-    this.notifSvc.reload().catch(() => {});
+    this.notifSvc.reload().catch(() => { });
   }
 
   goToNotifs(): void {

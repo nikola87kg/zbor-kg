@@ -31,11 +31,11 @@ export class Notifications implements OnInit {
   });
 
   readonly typeLabels: Record<NotifType, string> = {
-    news: 'Вест',
-    affair: 'Афера',
-    action: 'Акција',
-    report: 'Пријава',
-    status: 'Статус',
+    news: 'нова вест',
+    affair: 'нова афера',
+    action: 'нова акција',
+    report: 'пријава проблема',
+    status: 'промена статуса',
   };
 
   async ngOnInit(): Promise<void> {

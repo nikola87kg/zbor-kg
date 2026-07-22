@@ -23,7 +23,7 @@
     <p class="state-msg">{{ error() }}</p>
   } @else {
     <div class="reports-grid">
-      @for (report of reports(); track report.id) {
+      @for (report of visibleReports(); track report.id) {
         <mat-card class="report-card">
           @if (report.imageUrl) {
             <img mat-card-image [src]="report.imageUrl" [alt]="report.address" class="card-image">
@@ -54,7 +54,7 @@
               <mat-menu #statusMenu="matMenu">
                 @for (s of statuses; track s) {
                   <button mat-menu-item (click)="setStatus(report, s)">
-                    <mat-icon>{{ s === 'Покренут поступак' ? 'pending_actions' : s === 'Решен проблем' ? 'check_circle' : 'schedule' }}</mat-icon>
+                    <mat-icon>{{ s === 'Покренут поступак' ? 'pending_actions' : s === 'Решен проблем' ? 'check_circle' : s === 'Одбачен' ? 'cancel' : 'schedule' }}</mat-icon>
                     {{ s }}
                   </button>
                 }

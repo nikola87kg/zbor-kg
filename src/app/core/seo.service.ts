@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
 
-const SITE_NAME = 'Збор КГ';
+const SITE_NAME = 'Збор Филип Кљајић';
 const DEFAULT_DESCRIPTION = 'Грађански надзор Крагујевац – вести, афере и акције.';
 
 @Injectable({ providedIn: 'root' })

@@ -102,6 +102,11 @@
     background: var(--mat-sys-primary-container);
     color: var(--mat-sys-on-primary-container);
   }
+
+  &.status-rejected {
+    background: var(--mat-sys-error-container);
+    color: var(--mat-sys-on-error-container);
+  }
 }
 
 .status-menu-btn {

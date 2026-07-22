@@ -48,8 +48,4 @@ export class NewsDetail implements OnInit {
   goBack(): void {
     this.router.navigate(['/vesti']);
   }
-
-  isExternalUrl(url: string): boolean {
-    return url.startsWith('http');
-  }
 }

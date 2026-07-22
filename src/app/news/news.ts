@@ -58,7 +58,6 @@ export class News implements OnInit {
       .filter(
         (a) =>
           a.title.toLowerCase().includes(q) ||
-          (a.sourceName ?? '').toLowerCase().includes(q) ||
           (a.summary ?? '').toLowerCase().includes(q),
       );
   });

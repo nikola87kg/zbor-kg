@@ -45,10 +45,8 @@ export class NewsService {
     const newArticle: NewsArticle = {
       id,
       title: input.title,
-      url: input.url,
       publishedAt: input.publishedAt,
       createdAt: new Date(),
-      sourceName: input.sourceName ?? null,
       summary: input.summary ?? null,
       imageUrl: input.imageUrl ?? null,
     };

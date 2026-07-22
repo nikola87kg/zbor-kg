@@ -4,7 +4,7 @@
       <mat-icon>arrow_back</mat-icon>
       Назад на акције
     </button>
-    @if (auth.isLoggedIn() && action()) {
+    @if (auth.isAdmin() && action()) {
       <button mat-icon-button (click)="editAction()" matTooltip="Уреди акцију">
         <mat-icon>edit</mat-icon>
       </button>

@@ -14,7 +14,7 @@
       }
     </mat-form-field>
 
-    @if (auth.isLoggedIn()) {
+    @if (auth.isAdmin()) {
       <button mat-raised-button color="primary" routerLink="/afere/nova">
         <mat-icon>add</mat-icon>
         Додај аферу
@@ -65,7 +65,7 @@
           <mat-card-actions>
             <span class="card-date">{{ affair.publishedAt | date:'dd.MM.yyyy' }}</span>
             <span class="actions-spacer"></span>
-            @if (auth.isLoggedIn()) {
+            @if (auth.isAdmin()) {
               <button mat-icon-button matTooltip="Уреди аферу" (click)="editAffair(affair.id)">
                 <mat-icon>edit</mat-icon>
               </button>

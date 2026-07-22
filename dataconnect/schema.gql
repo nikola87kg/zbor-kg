@@ -7,12 +7,10 @@ type User @table {
 
 type NewsArticle @table {
   title: String!
-  url: String!
   publishedAt: Timestamp!
   createdAt: Timestamp!
   imageUrl: String
   summary: String
-  sourceName: String
 }
 
 type Affair @table {

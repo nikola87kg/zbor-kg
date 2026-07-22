@@ -4,7 +4,7 @@
       <mat-icon>arrow_back</mat-icon>
       Назад на афере
     </button>
-    @if (auth.isLoggedIn() && affair()) {
+    @if (auth.isAdmin() && affair()) {
       <button mat-icon-button (click)="editAffair()" matTooltip="Уреди аферу">
         <mat-icon>edit</mat-icon>
       </button>

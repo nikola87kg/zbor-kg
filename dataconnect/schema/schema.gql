@@ -7,12 +7,10 @@ type User @table {
 
 type NewsArticle @table {
   title: String!
-  url: String!
   publishedAt: Timestamp!
   createdAt: Timestamp!
   imageUrl: String
   summary: String
-  sourceName: String
 }
 
 type Affair @table {
@@ -54,7 +52,13 @@ type ProblemReport @table {
   address: String!
   description: String!
   imageUrl: String
+  status: String
   createdAt: Timestamp!
+}
+
+type UserRole @table(key: "authUid") {
+  authUid: String!
+  role: String!
 }
 
 type UserNewsPreference @table(key: ["authUid", "newsArticle"]) {

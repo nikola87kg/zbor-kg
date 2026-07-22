@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -14,6 +14,7 @@ import { AuthService } from '../core/auth.service';
   selector: 'app-login',
   imports: [
     ReactiveFormsModule,
+    RouterLink,
     MatCardModule,
     MatTabsModule,
     MatFormFieldModule,

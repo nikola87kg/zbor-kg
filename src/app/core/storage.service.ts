@@ -9,7 +9,7 @@ export class StorageService {
   async uploadImage(file: File, folder: string): Promise<string> {
     const path = `${folder}/${Date.now()}_${file.name}`;
     const storageRef = ref(this.storage, path);
-    await uploadBytes(storageRef, file);
+    await uploadBytes(storageRef, file, { contentType: file.type });
     return getDownloadURL(storageRef);
   }
 }

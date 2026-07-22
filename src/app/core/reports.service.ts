@@ -19,6 +19,13 @@ export class ReportsService {
     await executeMutation(ref);
   }
 
+  async updateStatus(id: string, status: string): Promise<void> {
+    const ref = mutationRef<void, { id: string; status: string }>(
+      this.dc, 'UpdateReportStatus', { id, status },
+    );
+    await executeMutation(ref);
+  }
+
   async listReports(): Promise<ProblemReport[]> {
     const ref = queryRef<{ problemReports: ProblemReport[] }>(this.dc, 'ListReports');
     const result = await executeQuery(ref);

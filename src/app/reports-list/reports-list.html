@@ -40,6 +40,27 @@
           <mat-card-content>
             <p class="description">{{ report.description }}</p>
           </mat-card-content>
+          <mat-card-footer class="card-footer">
+            <span [class]="'status-chip ' + statusClass(report)">
+              <mat-icon class="status-icon">{{ statusIcon(report) }}</mat-icon>
+              {{ report.status || 'На разматрању' }}
+            </span>
+
+            @if (isAdmin()) {
+              <button mat-icon-button [matMenuTriggerFor]="statusMenu"
+                      matTooltip="Промени статус" class="status-menu-btn">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <mat-menu #statusMenu="matMenu">
+                @for (s of statuses; track s) {
+                  <button mat-menu-item (click)="setStatus(report, s)">
+                    <mat-icon>{{ s === 'Покренут поступак' ? 'pending_actions' : s === 'Решен проблем' ? 'check_circle' : 'schedule' }}</mat-icon>
+                    {{ s }}
+                  </button>
+                }
+              </mat-menu>
+            }
+          </mat-card-footer>
         </mat-card>
       } @empty {
         <p class="state-msg">Нема пријављених проблема.</p>

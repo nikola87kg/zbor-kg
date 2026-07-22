@@ -8,7 +8,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { QuillEditorComponent } from 'ngx-quill';
 import { NewsService } from '../core/news.service';
@@ -26,7 +25,6 @@ import { NewsArticle } from '../models';
     MatInputModule,
     MatDatepickerModule,
     MatProgressSpinnerModule,
-    MatTooltipModule,
     QuillEditorComponent,
   ],
   providers: [provideNativeDateAdapter()],
@@ -49,9 +47,7 @@ export class NewsForm implements OnInit {
 
   readonly form = this.fb.group({
     title: ['', Validators.required],
-    url: ['', Validators.required],
     publishedAt: [new Date() as Date | null, Validators.required],
-    sourceName: [''],
     summary: [''],
   });
 
@@ -76,9 +72,7 @@ export class NewsForm implements OnInit {
           this.editingArticle.set(article);
           this.form.setValue({
             title: article.title,
-            url: article.url,
             publishedAt: new Date(article.publishedAt),
-            sourceName: article.sourceName ?? '',
             summary: article.summary ?? '',
           });
           this.imagePreview.set(article.imageUrl ?? null);
@@ -102,27 +96,6 @@ export class NewsForm implements OnInit {
     this.imagePreview.set(null);
   }
 
-  generateSlug(): void {
-    const title = this.form.get('title')?.value?.trim();
-    if (!title) return;
-    const base = this.toSlug(title);
-    const existingUrls = new Set(
-      this.newsService
-        .articles()
-        .filter((a) => a.id !== this.editingArticle()?.id)
-        .map((a) => a.url),
-    );
-    let slug = `/vesti/${base}`;
-    if (existingUrls.has(slug)) {
-      const date = this.form.get('publishedAt')?.value as Date | null;
-      const suffix = date
-        ? `-${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
-        : `-${Date.now()}`;
-      slug = `/vesti/${base}${suffix}`;
-    }
-    this.form.get('url')?.setValue(slug);
-  }
-
   async submit(): Promise<void> {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -136,12 +109,10 @@ export class NewsForm implements OnInit {
       } else if (this.imagePreview()) {
         imageUrl = this.imagePreview()!;
       }
-      const { title, url, publishedAt, sourceName, summary } = this.form.value;
+      const { title, publishedAt, summary } = this.form.value;
       const input = {
         title: title!,
-        url: url!,
         publishedAt: publishedAt!,
-        sourceName: sourceName || undefined,
         summary: summary || undefined,
         imageUrl,
       };
@@ -164,45 +135,4 @@ export class NewsForm implements OnInit {
     this.router.navigate(['/vesti']);
   }
 
-  private toSlug(text: string): string {
-    const cyr: Record<string, string> = {
-      а: 'a',
-      б: 'b',
-      в: 'v',
-      г: 'g',
-      д: 'd',
-      ђ: 'dj',
-      е: 'e',
-      ж: 'zh',
-      з: 'z',
-      и: 'i',
-      ј: 'j',
-      к: 'k',
-      л: 'l',
-      љ: 'lj',
-      м: 'm',
-      н: 'n',
-      њ: 'nj',
-      о: 'o',
-      п: 'p',
-      р: 'r',
-      с: 's',
-      т: 't',
-      ћ: 'c',
-      у: 'u',
-      ф: 'f',
-      х: 'h',
-      ц: 'c',
-      ч: 'ch',
-      џ: 'dz',
-      ш: 'sh',
-    };
-    return text
-      .toLowerCase()
-      .split('')
-      .map((c) => cyr[c] ?? c)
-      .join('')
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-+|-+$/g, '');
-  }
 }

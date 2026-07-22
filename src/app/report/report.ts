@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { AuthService } from '../core/auth.service';
 import { ReportsService } from '../core/reports.service';
 import { StorageService } from '../core/storage.service';
 
@@ -26,6 +27,7 @@ import { StorageService } from '../core/storage.service';
   styleUrl: './report.scss',
 })
 export class Report {
+  private readonly authService = inject(AuthService);
   private readonly reportsService = inject(ReportsService);
   private readonly storageService = inject(StorageService);
   private readonly fb = inject(FormBuilder);
@@ -63,6 +65,7 @@ export class Report {
     this.saving.set(true);
     this.error.set('');
     try {
+      await this.authService.ensureAuth();
       let imageUrl: string | undefined;
       if (this.selectedFile()) {
         imageUrl = await this.storageService.uploadImage(this.selectedFile()!, 'reports');

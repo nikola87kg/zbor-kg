@@ -9,8 +9,16 @@ mutation SubmitReport(
     address: $address
     description: $description
     imageUrl: $imageUrl
+    status: "На разматрању"
     createdAt_expr: "request.time"
   })
+}
+
+mutation UpdateReportStatus(
+  $id: UUID!
+  $status: String!
+) @auth(level: USER) {
+  problemReport_update(id: $id, data: { status: $status })
 }
 
 query ListReports @auth(level: USER) {
@@ -20,6 +28,7 @@ query ListReports @auth(level: USER) {
     address
     description
     imageUrl
+    status
     createdAt
   }
 }

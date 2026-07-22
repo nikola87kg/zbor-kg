@@ -29,9 +29,6 @@
 
       <div class="detail-body">
         <div class="detail-meta">
-          @if (article()!.sourceName) {
-            <span class="source">{{ article()!.sourceName }}</span>
-          }
           <span class="date">{{ article()!.publishedAt | date:'dd.MM.yyyy' }}</span>
         </div>
 
@@ -41,14 +38,6 @@
           <div class="detail-summary" [innerHTML]="article()!.summary"></div>
         }
 
-        @if (isExternalUrl(article()!.url)) {
-          <a mat-raised-button color="primary"
-             [href]="article()!.url" target="_blank" rel="noopener"
-             class="source-link">
-            <mat-icon>open_in_new</mat-icon>
-            Оригинална вест
-          </a>
-        }
       </div>
     </article>
   }

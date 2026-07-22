@@ -14,7 +14,7 @@
       }
     </mat-form-field>
 
-    @if (auth.isLoggedIn()) {
+    @if (auth.isAdmin()) {
       <button mat-raised-button color="primary" routerLink="/vesti/nova">
         <mat-icon>add</mat-icon>
         Додај вест
@@ -65,13 +65,15 @@
           <mat-card-actions>
             <span class="card-date">{{ article.publishedAt | date:'dd.MM.yyyy' }}</span>
             <span class="actions-spacer"></span>
-            @if (auth.isLoggedIn()) {
+            @if (auth.isAdmin()) {
               <button mat-icon-button matTooltip="Уреди вест" (click)="editArticle(article.id)">
                 <mat-icon>edit</mat-icon>
               </button>
               <button mat-icon-button matTooltip="Обриши вест" (click)="deleteArticle(article, $event)">
                 <mat-icon>delete</mat-icon>
               </button>
+            }
+            @if (auth.isLoggedIn()) {
               <button mat-icon-button (click)="toggleFavorite(article.id)"
                       [class.favorited]="isFavorite(article.id)">
                 <mat-icon>{{ isFavorite(article.id) ? 'favorite' : 'favorite_border' }}</mat-icon>

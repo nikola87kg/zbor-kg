@@ -2,12 +2,10 @@ query GetNewsArticle($id: UUID!) @auth(level: PUBLIC, insecureReason: "News arti
   newsArticle(id: $id) {
     id
     title
-    url
     publishedAt
     createdAt
     imageUrl
     summary
-    sourceName
   }
 }
 
@@ -15,12 +13,10 @@ query ListNewsArticles @auth(level: PUBLIC, insecureReason: "News articles are p
   newsArticles(orderBy: { publishedAt: DESC }) {
     id
     title
-    url
     publishedAt
     createdAt
     imageUrl
     summary
-    sourceName
   }
 }
 
@@ -34,39 +30,31 @@ query ListUserNewsPreferences @auth(level: USER) {
 
 mutation CreateNewsArticle(
   $title: String!
-  $url: String!
   $publishedAt: Timestamp!
   $imageUrl: String
   $summary: String
-  $sourceName: String
 ) @auth(level: USER, insecureReason: "Any authenticated user can submit news articles") {
   newsArticle_insert(data: {
     title: $title
-    url: $url
     publishedAt: $publishedAt
     createdAt_expr: "request.time"
     imageUrl: $imageUrl
     summary: $summary
-    sourceName: $sourceName
   })
 }
 
 mutation UpdateNewsArticle(
   $id: UUID!
   $title: String!
-  $url: String!
   $publishedAt: Timestamp!
   $imageUrl: String
   $summary: String
-  $sourceName: String
 ) @auth(level: USER, insecureReason: "Any authenticated user can update news articles") {
   newsArticle_update(id: $id, data: {
     title: $title
-    url: $url
     publishedAt: $publishedAt
     imageUrl: $imageUrl
     summary: $summary
-    sourceName: $sourceName
   })
 }
 

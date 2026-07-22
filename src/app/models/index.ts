@@ -1,12 +1,10 @@
 export interface NewsArticle {
   id: string;
   title: string;
-  url: string;
   publishedAt: Date;
   createdAt: Date;
   imageUrl?: string | null;
   summary?: string | null;
-  sourceName?: string | null;
 }
 
 export interface UserNewsPreference {
@@ -33,11 +31,9 @@ export interface CalendarEntry {
 
 export interface CreateNewsArticleInput {
   title: string;
-  url: string;
   publishedAt: Date;
   imageUrl?: string;
   summary?: string;
-  sourceName?: string;
 }
 
 export interface Affair {
@@ -80,6 +76,7 @@ export interface ProblemReport {
   address: string;
   description: string;
   imageUrl?: string | null;
+  status?: string | null;
   createdAt: Date;
 }
 

@@ -64,6 +64,52 @@
   line-height: 1.5;
 }
 
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px 8px 16px;
+  border-top: 1px solid var(--mat-sys-outline-variant);
+  min-height: 40px;
+}
+
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px 3px 6px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+
+  .status-icon {
+    font-size: 14px;
+    height: 14px;
+    width: 14px;
+  }
+
+  &.status-pending {
+    background: var(--mat-sys-surface-variant);
+    color: var(--mat-sys-on-surface-variant);
+  }
+
+  &.status-in-progress {
+    background: var(--mat-sys-tertiary-container);
+    color: var(--mat-sys-on-tertiary-container);
+  }
+
+  &.status-resolved {
+    background: var(--mat-sys-primary-container);
+    color: var(--mat-sys-on-primary-container);
+  }
+}
+
+.status-menu-btn {
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+}
+
 .state-msg {
   text-align: center;
   padding: 64px;
